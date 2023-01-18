@@ -23,7 +23,7 @@
 Many thanks to [Nikolay Anzarov](https://www.behance.net/nikolayanzarov) ([@BloodRaven0](https://github.com/BloodRaven0)) for designing and providing the main app icons to this project!
 
 ## Thanks
-Patrick Goldinger
+[Patrick Goldinger](https://github.com/florisboard/florisboard)
 ## License
 
 ```
