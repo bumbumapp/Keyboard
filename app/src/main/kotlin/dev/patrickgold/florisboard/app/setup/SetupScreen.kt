@@ -145,7 +145,6 @@ fun SetupScreen() = FlorisScreen {
                     title = stringRes(R.string.setup__finish_up__title),
                 ) {
                     StepText(stringRes(R.string.setup__finish_up__description_p1))
-                    StepText(stringRes(R.string.setup__finish_up__description_p2))
                     StepButton(label = stringRes(R.string.setup__finish_up__finish_btn)) {
                         this@content.prefs.internal.isImeSetUp.set(true)
                         navController.navigate(Routes.Settings.Home) {
@@ -156,25 +155,7 @@ fun SetupScreen() = FlorisScreen {
                     }
                 },
             ),
-            footer = {
-                Spacer(modifier = Modifier.height(16.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                ) {
-                    val privacyPolicyUrl = stringRes(R.string.florisboard__privacy_policy_url)
-                    TextButton(onClick = { context.launchUrl(privacyPolicyUrl)}) {
-                        Text(text = stringRes(R.string.setup__footer__privacy_policy))
-                    }
-                    FlorisBulletSpacer()
-                    val repositoryUrl = stringRes(R.string.florisboard__repo_url)
-                    TextButton(onClick = { context.launchUrl(repositoryUrl) }) {
-                        Text(text = stringRes(R.string.setup__footer__repository))
-                    }
-                }
-            },
+
         )
     }
 }

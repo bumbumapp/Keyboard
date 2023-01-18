@@ -115,7 +115,7 @@ fun RestoreScreen() = FlorisScreen {
                     error("Invalid archive: either backup_metadata.json is missing or file is not a ZIP archive.")
                 }
                 workspace.restoreWarningId = when {
-                    workspace.metadata.versionCode != BuildConfig.VERSION_CODE -> {
+                    workspace.metadata.versionCode != dev.patrickgold.florisboard.BuildConfig.VERSION_CODE -> {
                         R.string.backup_and_restore__restore__metadata_warn_different_version
                     }
                     !workspace.metadata.packageName.startsWith(Restore.PACKAGE_NAME) -> {

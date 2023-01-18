@@ -70,18 +70,18 @@ class CrashDialogActivity : ComponentActivity() {
         stacktraces = CrashUtility.getUnhandledStacktraces(this)
         val versionName = buildString {
             append("[")
-            append(BuildConfig.VERSION_NAME)
+            append(dev.patrickgold.florisboard.BuildConfig.VERSION_NAME)
             append("](")
-            if (BuildConfig.DEBUG) {
-                append(stringRes(R.string.florisboard__commit_by_hash_url, "hash" to BuildConfig.BUILD_COMMIT_HASH))
+            if (dev.patrickgold.florisboard.BuildConfig.DEBUG) {
+                append(stringRes(R.string.florisboard__commit_by_hash_url, "hash" to dev.patrickgold.florisboard.BuildConfig.BUILD_COMMIT_HASH))
             } else {
-                append(stringRes(R.string.florisboard__changelog_url, "version" to BuildConfig.VERSION_NAME))
+                append(stringRes(R.string.florisboard__changelog_url, "version" to dev.patrickgold.florisboard.BuildConfig.VERSION_NAME))
             }
             append(")")
         }
         errorReport.apply {
             appendLine("#### Environment information")
-            appendLine("- FlorisBoard $versionName (${BuildConfig.VERSION_CODE})")
+            appendLine("- FlorisBoard $versionName (${dev.patrickgold.florisboard.BuildConfig.VERSION_CODE})")
             appendLine("- Device: ${Devtools.getDeviceName()}")
             appendLine("- Android: ${Devtools.getAndroidVersion()}")
             appendLine()

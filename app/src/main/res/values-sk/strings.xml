@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FlorisBoard</string>
+    <string name="app_name">Keyboard pro</string>
     <string name="key__phone_pause" comment="Label for the Pause key in the telephone keyboard layout">Pauza</string>
     <string name="key__phone_wait" comment="Label for the Wait key in the telephone keyboard layout">Počkajte</string>
     <string name="key_popup__threedots_alt" comment="Content description for the three-dots icon in a key popup">Ikona s tromi bodkami. Ak je viditeľná, znamená, že po dlhšom stlačení je možné použiť viac písmen.</string>
@@ -20,8 +20,8 @@
     <string name="emoji__category__travel_places" comment="Emoji category name">Cestovanie &amp; Miesta</string>
     <!-- Smartbar strings -->
     <!-- Settings UI strings -->
-    <string name="settings__home__ime_not_enabled" comment="Error message shown in Home fragment when FlorisBoard is not enabled in the system">FlorisBoard nie je v systéme povolený, a preto nebude k dispozícii, ako metóda zadávania v ponuke na výber vstupov. Kliknutím sem tento problém vyriešite.</string>
-    <string name="settings__home__ime_not_selected" comment="Warning message shown in Home fragment when FlorisBoard is not selected as the default keyboard">FlorisBoard nie je vybraný, ako predvolená metóda zadávania. Kliknutím sem tento problém vyriešite.</string>
+    <string name="settings__home__ime_not_enabled" comment="Error message shown in Home fragment when Keyboard pro is not enabled in the system">Keyboard pro nie je v systéme povolený, a preto nebude k dispozícii, ako metóda zadávania v ponuke na výber vstupov. Kliknutím sem tento problém vyriešite.</string>
+    <string name="settings__home__ime_not_selected" comment="Warning message shown in Home fragment when Keyboard pro is not selected as the default keyboard">Keyboard pro nie je vybraný, ako predvolená metóda zadávania. Kliknutím sem tento problém vyriešite.</string>
     <string name="settings__localization__subtype_add_title" comment="Title of subtype dialog when adding a new subtype">Pridať podtyp</string>
     <string name="settings__localization__subtype_no_subtypes_configured_warning" comment="Warning message that no subtype has been defined">Zdá sa, že ste nenakonfigurovali žiadne podtypy. Ako náhradný sa použije podtyp Angličtina/QWERTY!</string>
     <string name="pref__theme__night" comment="Label of the night group (night means dark theme)">Nočná téma</string>

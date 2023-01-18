@@ -76,37 +76,36 @@ fun HomeScreen() = FlorisScreen {
                 onClick = { InputMethodUtils.showImePicker(context) },
             )
         }
-
-        Card(modifier = Modifier.padding(8.dp)) {
-            Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = "Welcome to 0.3.16!",
-                        style = MaterialTheme.typography.subtitle1,
-                        fontWeight = FontWeight.Bold,
-                    )
-                    Spacer(modifier = Modifier.weight(1.0f))
-                    IconButton(onClick = { this@content.prefs.internal.homeIsBetaToolboxCollapsed.set(!isCollapsed) }) {
-                        Icon(
-                            painter = painterResource(if (isCollapsed) {
-                                R.drawable.ic_keyboard_arrow_down
-                            } else {
-                                R.drawable.ic_keyboard_arrow_up
-                            }),
-                            contentDescription = null,
-                        )
-                    }
-                }
-                if (!isCollapsed) {
-                    Text("This release focuses on improving the stability of this keyboard (see changelog for all details). I want to thank all my beta testers who were able to identify and report a lot of bugs, this helped a lot in ironing out bugs!\n")
-                    Text("This is the last stable release on the 0.3.x track, the development focus now shifts to the 0.4.0 dev cycle, which will introduce word suggestions and inline autocorrect (at first for Latin-based languages) within the keyboard UI. If you are interested in the early steps of this new feature, make sure to follow the beta track, as the development of proper word suggestions will take quite some time.\n")
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text("Note that this release does not contain support for word suggestions (will show the current word plus numbers as a placeholder).", color = Color.Red)
-                    Text("Please DO NOT file an issue for this. It is already more than known and a major goal for implementation in 0.4.0. Thank you!\n")
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
-            }
-        }
+//        Card(modifier = Modifier.padding(8.dp)) {
+//            Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+//                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+//                    Text(
+//                        text = "Welcome to 0.3.16!",
+//                        style = MaterialTheme.typography.subtitle1,
+//                        fontWeight = FontWeight.Bold,
+//                    )
+//                    Spacer(modifier = Modifier.weight(1.0f))
+//                    IconButton(onClick = { this@content.prefs.internal.homeIsBetaToolboxCollapsed.set(!isCollapsed) }) {
+//                        Icon(
+//                            painter = painterResource(if (isCollapsed) {
+//                                R.drawable.ic_keyboard_arrow_down
+//                            } else {
+//                                R.drawable.ic_keyboard_arrow_up
+//                            }),
+//                            contentDescription = null,
+//                        )
+//                    }
+//                }
+//                if (!isCollapsed) {
+//                    Text("This release focuses on improving the stability of this keyboard (see changelog for all details). I want to thank all my beta testers who were able to identify and report a lot of bugs, this helped a lot in ironing out bugs!\n")
+//                    Text("This is the last stable release on the 0.3.x track, the development focus now shifts to the 0.4.0 dev cycle, which will introduce word suggestions and inline autocorrect (at first for Latin-based languages) within the keyboard UI. If you are interested in the early steps of this new feature, make sure to follow the beta track, as the development of proper word suggestions will take quite some time.\n")
+//                    Spacer(modifier = Modifier.height(16.dp))
+//                    Text("Note that this release does not contain support for word suggestions (will show the current word plus numbers as a placeholder).", color = Color.Red)
+//                    Text("Please DO NOT file an issue for this. It is already more than known and a major goal for implementation in 0.4.0. Thank you!\n")
+//                    Spacer(modifier = Modifier.height(16.dp))
+//                }
+//            }
+//        }
         Preference(
             iconId = R.drawable.ic_language,
             title = stringRes(R.string.settings__localization__title),
@@ -152,20 +151,12 @@ fun HomeScreen() = FlorisScreen {
             title = stringRes(R.string.settings__media__title),
             onClick = { navController.navigate(Routes.Settings.Media) },
         )
-        Preference(
-            iconId = R.drawable.ic_adb,
-            title = stringRes(R.string.devtools__title),
-            onClick = { navController.navigate(Routes.Devtools.Home) },
-        )
+
         Preference(
             iconId = R.drawable.ic_build,
             title = stringRes(R.string.settings__advanced__title),
             onClick = { navController.navigate(Routes.Settings.Advanced) },
         )
-        Preference(
-            iconId = R.drawable.ic_info,
-            title = stringRes(R.string.about__title),
-            onClick = { navController.navigate(Routes.Settings.About) },
-        )
+
     }
 }

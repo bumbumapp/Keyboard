@@ -24,7 +24,7 @@ import kotlinx.serialization.Serializable
 
 @Suppress("NOTHING_TO_INLINE")
 inline fun extCoreTheme(id: String) = ExtensionComponentName(
-    extensionId = "org.florisboard.themes",
+    extensionId = "keyboard.themes",
     componentId = id,
 )
 

@@ -66,12 +66,13 @@ fun KeyboardScreen() = FlorisScreen {
             title = stringRes(R.string.pref__keyboard__utility_key_enabled__label),
             summary = stringRes(R.string.pref__keyboard__utility_key_enabled__summary),
         )
-        ListPreference(
-            prefs.keyboard.utilityKeyAction,
-            title = stringRes(R.string.pref__keyboard__utility_key_action__label),
-            entries = UtilityKeyAction.listEntries(),
-            visibleIf = { prefs.keyboard.utilityKeyEnabled isEqualTo true },
-        )
+
+//        ListPreference(
+//            prefs.keyboard.utilityKeyAction,
+//            title = stringRes(R.string.pref__keyboard__utility_key_action__label),
+//            entries = UtilityKeyAction.listEntries(),
+//            visibleIf = { prefs.keyboard.utilityKeyEnabled isEqualTo true },
+//        )
         SwitchPreference(
             prefs.keyboard.spaceBarLanguageDisplayEnabled,
             title = stringRes(R.string.pref__keyboard__space_bar_language_display_enabled__label),

@@ -23,7 +23,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import dev.patrickgold.florisboard.app.devtools.AndroidLocalesScreen
 import dev.patrickgold.florisboard.app.devtools.AndroidSettingsScreen
-import dev.patrickgold.florisboard.app.devtools.DevtoolsScreen
+
 import dev.patrickgold.florisboard.app.devtools.ExportDebugLogScreen
 import dev.patrickgold.florisboard.app.ext.ExtensionEditScreen
 import dev.patrickgold.florisboard.app.ext.ExtensionExportScreen
@@ -147,12 +147,12 @@ object Routes {
             startDestination = startDestination,
         ) {
             composable(Splash.Screen) { SplashScreen() }
-
+//
             composable(Setup.Screen) { SetupScreen() }
 
             composable(Settings.Home) { HomeScreen() }
 
-            composable(Settings.Localization) { LocalizationScreen() }
+            composable(Settings.Localization) { LocalizationScreen(null) }
             composable(Settings.SelectLocale) { SelectLocaleScreen() }
             composable(Settings.SubtypeAdd) { SubtypeEditorScreen(null) }
             composable(Settings.SubtypeEdit) { navBackStack ->
@@ -193,17 +193,17 @@ object Routes {
             composable(Settings.Backup) { BackupScreen() }
             composable(Settings.Restore) { RestoreScreen() }
 
-            composable(Settings.About) { AboutScreen() }
-            composable(Settings.ProjectLicense) { ProjectLicenseScreen() }
-            composable(Settings.ThirdPartyLicenses) { ThirdPartyLicensesScreen() }
+//            composable(Settings.About) { AboutScreen() }
+//            composable(Settings.ProjectLicense) { ProjectLicenseScreen() }
+//            composable(Settings.ThirdPartyLicenses) { ThirdPartyLicensesScreen() }
 
-            composable(Devtools.Home) { DevtoolsScreen() }
-            composable(Devtools.AndroidLocales) { AndroidLocalesScreen() }
-            composable(Devtools.AndroidSettings) { navBackStack ->
-                val name = navBackStack.arguments?.getString("name")
-                AndroidSettingsScreen(name)
-            }
-            composable(Devtools.ExportDebugLog) { ExportDebugLogScreen() }
+//            composable(Devtools.Home) { DevtoolsScreen() }
+//            composable(Devtools.AndroidLocales) { AndroidLocalesScreen() }
+//            composable(Devtools.AndroidSettings) { navBackStack ->
+//                val name = navBackStack.arguments?.getString("name")
+//                AndroidSettingsScreen(name)
+//            }
+//            composable(Devtools.ExportDebugLog) { ExportDebugLogScreen() }
 
             composable(Ext.Edit) { navBackStack ->
                 val extensionId = navBackStack.arguments?.getString("id")

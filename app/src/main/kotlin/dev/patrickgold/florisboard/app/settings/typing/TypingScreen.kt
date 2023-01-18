@@ -49,13 +49,7 @@ fun TypingScreen() = FlorisScreen {
 
     content {
         // This card is temporary and is therefore not using a string resource
-        FlorisErrorCard(
-            modifier = Modifier.padding(8.dp),
-            text = """
-                Suggestions (except system autofill) and spell checking are not available in this alpha release. All
-                preferences in the "Corrections" group are properly implemented though.
-            """.trimIndent().replace('\n', ' '),
-        )
+
 
         PreferenceGroup(title = stringRes(R.string.pref__suggestion__title)) {
             SwitchPreference(
@@ -112,23 +106,7 @@ fun TypingScreen() = FlorisScreen {
                 title = stringRes(R.string.pref__correction__auto_space_punctuation__label),
                 summary = stringRes(R.string.pref__correction__auto_space_punctuation__summary),
             )
-            if (isAutoSpacePunctuationEnabled) {
-                Card(modifier = Modifier.padding(8.dp)) {
-                    Column(modifier = Modifier.padding(8.dp)) {
-                        Text(
-                            text = """
-                                Auto-space after punctuation is an experimental feature which may break or behave
-                                unexpectedly. If you want, please give feedback about it in below linked feedback
-                                thread. This helps a lot in improving this feature. Thanks!
-                            """.trimIndent().replace('\n', ' '),
-                        )
-                        FlorisHyperlinkText(
-                            text = "Feedback thread (GitHub)",
-                            url = "https://github.com/florisboard/florisboard/discussions/1935",
-                        )
-                    }
-                }
-            }
+
             SwitchPreference(
                 prefs.correction.rememberCapsLockState,
                 title = stringRes(R.string.pref__correction__remember_caps_lock_state__label),

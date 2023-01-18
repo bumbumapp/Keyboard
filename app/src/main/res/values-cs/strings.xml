@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FlorisBoard</string>
+    <string name="app_name">Keyboard pro</string>
     <string name="key__phone_pause" comment="Label for the Pause key in the telephone keyboard layout">Pauza</string>
     <string name="key__phone_wait" comment="Label for the Wait key in the telephone keyboard layout">Počkat</string>
     <string name="key_popup__threedots_alt" comment="Content description for the three-dots icon in a key popup">Tří-tečková ikona. Pokud je viditelná, tak se po delším podržení nabídne více písmen.</string>
@@ -46,8 +46,8 @@
     <string name="settings__default" comment="General string which is used when a preference has the default value set">Výchozí</string>
     <string name="settings__system_default" comment="General string which is used when a preference has the system default value set">Výchozí nastavení systému</string>
     <string name="settings__home__title" comment="Title of the Home screen">Vítejte ve {app_name}</string>
-    <string name="settings__home__ime_not_enabled" comment="Error message shown in Home fragment when FlorisBoard is not enabled in the system">FlorisBord není povolena v systému a proto nemůže být použita jako metoda zadávání. Klikněte sem pro vyřešení tohoto problému.</string>
-    <string name="settings__home__ime_not_selected" comment="Warning message shown in Home fragment when FlorisBoard is not selected as the default keyboard">FlorisBoard není vybrán jako výchozí vstupní metoda. Kliknutím sem tento problém vyřešíte.</string>
+    <string name="settings__home__ime_not_enabled" comment="Error message shown in Home fragment when Keyboard pro is not enabled in the system">Keyboard pro není povolena v systému a proto nemůže být použita jako metoda zadávání. Klikněte sem pro vyřešení tohoto problému.</string>
+    <string name="settings__home__ime_not_selected" comment="Warning message shown in Home fragment when Keyboard pro is not selected as the default keyboard">Keyboard pro není vybrán jako výchozí vstupní metoda. Kliknutím sem tento problém vyřešíte.</string>
     <string name="settings__localization__title" comment="Title of languages and Layout screen">Jazyky a rozložení</string>
     <string name="settings__localization__display_language_names_in__label" comment="Label of Display language names in preference">Zobrazovat názvy jazyků v</string>
     <string name="settings__localization__group_subtypes__label" comment="Label of subtypes group">Podtypy</string>
@@ -88,7 +88,7 @@
     <string name="pref__theme__any_theme__label" comment="Label of the theme selector preference">Vybraný motiv</string>
     <string name="pref__theme__any_theme_adapt_to_app__label" comment="Label of the theme adapt to app preference">Přizpůsobit barvy aplikaci</string>
     <string name="pref__theme__any_theme_adapt_to_app__summary" comment="Summary of the theme adapt to app preference">Barvy motivu se přizpůsobí barvám používané aplikace, pokud to daná aplikace podporuje.</string>
-    <string name="pref__theme__source_assets" comment="Label for the theme source field">Podklady aplikace FlorisBoard</string>
+    <string name="pref__theme__source_assets" comment="Label for the theme source field">Podklady aplikace Keyboard pro</string>
     <string name="pref__theme__source_internal" comment="Label for the theme source field">Interní úložiště</string>
     <string name="pref__theme__source_external" comment="Label for the theme source field">Externí poskytovatel</string>
     <string name="settings__theme_manager__title_day" comment="Title of the theme manager screen for day theme selection">Vyberte denní motiv</string>
@@ -355,7 +355,7 @@
     <string name="pref__advanced__force_private_mode__summary" comment="Summary of Force private mode preference in Advanced">Zakáže funkce, které pracují s vašimi vstupními daty</string>
     <!-- About UI strings -->
     <string name="about__title" comment="Title of About activity">O aplikaci</string>
-    <string name="about__app_icon_content_description" comment="Content description of app icon in About">Ikona aplikace FlorisBoard</string>
+    <string name="about__app_icon_content_description" comment="Content description of app icon in About">Ikona aplikace Keyboard pro</string>
     <string name="about__view_licenses" comment="Label of View licenses button in About">Open source licence</string>
     <string name="about__view_privacy_policy" comment="Label of View privacy policy button in About">Soukromí</string>
     <string name="about__view_source_code" comment="Label of View source code button in About">Zdrojový kód</string>
@@ -382,10 +382,10 @@
     <string name="crash_dialog__copy_to_clipboard_success" comment="Label of Copy to clipboard success message in crash dialog">Zkopírováno do schránky</string>
     <string name="crash_dialog__open_issue_tracker" comment="Label of Open issue tracker button in crash dialog">Nahlásit problém (github.com)</string>
     <string name="crash_dialog__close" comment="Label of Close button in crash dialog">Zavřít</string>
-    <string name="crash_notification_channel__title" comment="Title of crash notification channel">FlorisBoard chybová hlášení</string>
-    <string name="crash_once_notification__title" comment="Title of the notification for a single crash">FlorisBoard přestal pracovat…</string>
+    <string name="crash_notification_channel__title" comment="Title of crash notification channel">Keyboard pro chybová hlášení</string>
+    <string name="crash_once_notification__title" comment="Title of the notification for a single crash">Keyboard pro přestal pracovat…</string>
     <string name="crash_once_notification__body" comment="Body of the notification for a single crash">Klepnutím zobrazíte podrobnosti o chybě</string>
-    <string name="crash_multiple_notification__title" comment="Title of the notification for consecutive crashes">Zdá se, že FlorisBoard přestal opakovaně pracovat…</string>
+    <string name="crash_multiple_notification__title" comment="Title of the notification for consecutive crashes">Zdá se, že Keyboard pro přestal opakovaně pracovat…</string>
     <string name="crash_multiple_notification__body" comment="Body of the notification for consecutive crashes">Vrácení zpět na předchozí klávesnici pro zastavení nekonečného crash loopu. Klepnutím zobrazíte podrobnosti o chybě</string>
     <!-- Clipboard strings -->
     <string name="clipboard__header_title">Schránka</string>

@@ -56,7 +56,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 object Backup {
-    const val FILE_PROVIDER_AUTHORITY = "${BuildConfig.APPLICATION_ID}.provider.file"
+    const val FILE_PROVIDER_AUTHORITY = "${dev.patrickgold.florisboard.BuildConfig.APPLICATION_ID}.provider.file"
     const val METADATA_JSON_NAME = "backup_metadata.json"
 
     fun defaultFileName(metadata: Metadata): String {
@@ -144,9 +144,9 @@ fun BackupScreen() = FlorisScreen {
             }
         }
         workspace.metadata = Backup.Metadata(
-            packageName = BuildConfig.APPLICATION_ID,
-            versionCode = BuildConfig.VERSION_CODE,
-            versionName = BuildConfig.VERSION_NAME,
+            packageName = dev.patrickgold.florisboard.BuildConfig.APPLICATION_ID,
+            versionCode = dev.patrickgold.florisboard.BuildConfig.VERSION_CODE,
+            versionName = dev.patrickgold.florisboard.BuildConfig.VERSION_NAME,
             timestamp = System.currentTimeMillis(),
         )
         workspace.inputDir.subFile(Backup.METADATA_JSON_NAME).writeJson(workspace.metadata)

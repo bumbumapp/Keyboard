@@ -195,11 +195,11 @@ class AppPrefs : PreferenceModel("florisboard-app-prefs") {
         )
         val spaceBarSwipeLeft = enum(
             key = "gestures__space_bar_swipe_left",
-            default = SwipeAction.MOVE_CURSOR_LEFT,
+            default = SwipeAction.SWITCH_TO_PREV_SUBTYPE,
         )
         val spaceBarSwipeRight = enum(
             key = "gestures__space_bar_swipe_right",
-            default = SwipeAction.MOVE_CURSOR_RIGHT,
+            default = SwipeAction.SWITCH_TO_NEXT_SUBTYPE,
         )
         val spaceBarLongPress = enum(
             key = "gestures__space_bar_long_press",
@@ -296,7 +296,7 @@ class AppPrefs : PreferenceModel("florisboard-app-prefs") {
         )
         val hapticUseVibrator = boolean(
             key = "input_feedback__haptic_use_vibrator",
-            default = true,
+            default = false,
         )
         val hapticVibrationDuration = int(
             key = "input_feedback__haptic_vibration_duration",
@@ -380,7 +380,7 @@ class AppPrefs : PreferenceModel("florisboard-app-prefs") {
         )
         val utilityKeyAction = enum(
             key = "keyboard__utility_key_action",
-            default = UtilityKeyAction.DYNAMIC_SWITCH_LANGUAGE_EMOJIS,
+            default = UtilityKeyAction.SWITCH_TO_EMOJIS,
         )
         val spaceBarLanguageDisplayEnabled = boolean(
             key = "keyboard__space_bar_language_display_enabled",
@@ -416,11 +416,11 @@ class AppPrefs : PreferenceModel("florisboard-app-prefs") {
         )
         val keySpacingVertical = float(
             key = "keyboard__key_spacing_vertical",
-            default = 5.0f,
+            default = 3.0f,
         )
         val keySpacingHorizontal = float(
             key = "keyboard__key_spacing_horizontal",
-            default = 2.0f,
+            default = 2.5f,
         )
         val bottomOffsetPortrait = int(
             key = "keyboard__bottom_offset_portrait",
@@ -432,7 +432,7 @@ class AppPrefs : PreferenceModel("florisboard-app-prefs") {
         )
         val popupEnabled = boolean(
             key = "keyboard__popup_enabled",
-            default = true,
+            default = false,
         )
         val mergeHintPopupsEnabled = boolean(
             key = "keyboard__merge_hint_popups_enabled",
@@ -621,7 +621,7 @@ class AppPrefs : PreferenceModel("florisboard-app-prefs") {
         )
         val dayThemeId = custom(
             key = "theme__day_theme_id",
-            default = extCoreTheme("floris_day"),
+            default = extCoreTheme("day"),
             serializer = ExtensionComponentName.Serializer,
         )
         val nightThemeAdaptToApp = boolean(
@@ -630,7 +630,7 @@ class AppPrefs : PreferenceModel("florisboard-app-prefs") {
         )
         val nightThemeId = custom(
             key = "theme__night_theme_id",
-            default = extCoreTheme("floris_night"),
+            default = extCoreTheme("night"),
             serializer = ExtensionComponentName.Serializer,
         )
         //val sunriseTime = localTime(

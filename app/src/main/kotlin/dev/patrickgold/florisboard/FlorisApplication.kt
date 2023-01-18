@@ -45,6 +45,7 @@ import dev.patrickgold.florisboard.lib.io.AssetManager
 import dev.patrickgold.florisboard.lib.io.deleteContentsRecursively
 import dev.patrickgold.florisboard.lib.io.subFile
 import dev.patrickgold.florisboard.lib.toNativeStr
+import dev.patrickgold.jetpref.datastore.BuildConfig
 import dev.patrickgold.jetpref.datastore.JetPref
 
 @Suppress("unused")

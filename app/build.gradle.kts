@@ -51,11 +51,11 @@ android {
     }
 
     defaultConfig {
-        applicationId = "dev.patrickgold.florisboard"
+        applicationId = "com.bumbumapps.keyboardpro"
         minSdk = 24
         targetSdk = 31
-        versionCode = 87
-        versionName = "0.4.0"
+        versionCode = 1
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -118,7 +118,7 @@ android {
     }
 
     buildTypes {
-        named("debug") {
+        debug {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug-${getGitCommitHash(short = true)}"
 
@@ -130,47 +130,25 @@ android {
                 abiFilters += listOf("x86", "x86_64")
             }
 
-            resValue("mipmap", "floris_app_icon", "@mipmap/ic_app_icon_debug")
-            resValue("mipmap", "floris_app_icon_round", "@mipmap/ic_app_icon_debug_round")
-            resValue("drawable", "floris_app_icon_foreground", "@drawable/ic_app_icon_debug_foreground")
-            resValue("string", "floris_app_name", "FlorisBoard Debug")
+            resValue("mipmap", "floris_app_icon", "@mipmap/logo")
+            resValue("mipmap", "floris_app_icon_round", "@mipmap/logo_round")
+            resValue("drawable", "floris_app_icon_foreground", "@drawable/keyboard")
+            resValue("string", "floris_app_name", "Keyboard pro")
         }
 
-        create("beta") {
-            applicationIdSuffix = ".beta"
-            versionNameSuffix = "-alpha01"
 
+        release {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             isMinifyEnabled = true
             isShrinkResources = true
 
-            resValue("mipmap", "floris_app_icon", "@mipmap/ic_app_icon_beta")
-            resValue("mipmap", "floris_app_icon_round", "@mipmap/ic_app_icon_beta_round")
-            resValue("drawable", "floris_app_icon_foreground", "@drawable/ic_app_icon_beta_foreground")
-            resValue("string", "floris_app_name", "FlorisBoard Beta")
+            resValue("mipmap", "floris_app_icon", "@mipmap/logo")
+            resValue("mipmap", "floris_app_icon_round", "@mipmap/logo_round")
+            resValue("drawable", "floris_app_icon_foreground", "@drawable/keyboard")
+            resValue("string", "floris_app_name", "Keyboard pro")
         }
 
-        named("release") {
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            isMinifyEnabled = true
-            isShrinkResources = true
 
-            resValue("mipmap", "floris_app_icon", "@mipmap/ic_app_icon_stable")
-            resValue("mipmap", "floris_app_icon_round", "@mipmap/ic_app_icon_stable_round")
-            resValue("drawable", "floris_app_icon_foreground", "@drawable/ic_app_icon_stable_foreground")
-            resValue("string", "floris_app_name", "@string/app_name")
-        }
-
-        create("benchmark") {
-            initWith(getByName("release"))
-            signingConfig = signingConfigs.getByName("debug")
-            matchingFallbacks += listOf("release")
-
-            ndk {
-                // For running FlorisBoard on the emulator
-                abiFilters += listOf("x86", "x86_64")
-            }
-        }
     }
 
     aboutLibraries {

@@ -5,14 +5,15 @@
         <item name="android:colorPrimary">@color/colorPrimary</item>
         <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:colorAccent">@color/colorAccent</item>
-
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:windowLightStatusBar">false</item>
         <!-- IMPORTANT: the following 2 colors MUST be references and not inline colors, or older
              versions of Android will not set the window background and thus causing weird
              rendering glitches!! -->
         <item name="android:windowBackground">@color/florisApp_windowBackground</item>
         <item name="android:colorBackground">@color/florisApp_windowBackground</item>
 
-        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">true</item>
 
         <!-- SplashScreen related attributes -->
         <item name="postSplashScreenTheme">@android:style/Theme.Material.NoActionBar</item>

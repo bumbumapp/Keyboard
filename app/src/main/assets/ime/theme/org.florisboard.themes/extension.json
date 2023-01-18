@@ -1,9 +1,9 @@
 {
   "$": "ime.extension.theme",
   "meta": {
-    "id": "org.florisboard.themes",
+    "id": "keyboard.themes",
     "version": "0.1.0",
-    "title": "FlorisBoard default themes",
+    "title": "Keyboard default themes",
     "description": "Default themes (both day and night) for the keyboard UI",
     "maintainers": [ "patrickgold <patrick@patrickgold.dev>" ],
     "license": "apache-2.0"
@@ -11,7 +11,7 @@
   "themes": [
     {
       "id": "floris_day",
-      "label": "Floris Day",
+      "label": "Day",
       "authors": [ "patrickgold" ],
       "isNight": false,
       "isBorderless": false,
@@ -19,7 +19,7 @@
     },
     {
       "id": "floris_day_borderless",
-      "label": "Floris Day (Borderless)",
+      "label": "Day (Borderless)",
       "authors": [ "patrickgold" ],
       "isNight": false,
       "isBorderless": true,
@@ -27,7 +27,7 @@
     },
     {
       "id": "floris_night",
-      "label": "Floris Night",
+      "label": "Night",
       "authors": [ "patrickgold" ],
       "isNight": true,
       "isBorderless": false,
@@ -35,7 +35,7 @@
     },
     {
       "id": "floris_night_borderless",
-      "label": "Floris Night (Borderless)",
+      "label": "Night (Borderless)",
       "authors": [ "patrickgold" ],
       "isNight": true,
       "isBorderless": true,
@@ -43,7 +43,7 @@
     },
     {
       "id": "floris_pure_night",
-      "label": "Floris Pure Night",
+      "label": "Pure Night",
       "authors": [ "serebit" ],
       "isNight": true,
       "isBorderless": false,
@@ -51,7 +51,7 @@
     },
     {
       "id": "floris_pure_night_borderless",
-      "label": "Floris Pure Night (Borderless)",
+      "label": "Pure Night (Borderless)",
       "authors": [ "serebit" ],
       "isNight": true,
       "isBorderless": true,

@@ -56,7 +56,7 @@ abstract class CrashUtility private constructor() {
         private const val SHARED_PREFS_FILE = "crash_utility"
         private const val SHARED_PREFS_LAST_CRASH_TIMESTAMP = "last_crash_timestamp"
 
-        private const val NOTIFICATION_CHANNEL_ID = "${BuildConfig.APPLICATION_ID}.lib.crashutility"
+        private const val NOTIFICATION_CHANNEL_ID = "${dev.patrickgold.florisboard.BuildConfig.APPLICATION_ID}.lib.crashutility"
         private const val NOTIFICATION_ID = 0xFBAD0100
 
         private const val UNHANDLED_STACKTRACES_DIR_NAME = "unhandled_stacktraces"

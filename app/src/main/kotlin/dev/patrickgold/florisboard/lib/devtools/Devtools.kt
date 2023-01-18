@@ -67,11 +67,11 @@ object Devtools {
     fun generateAppInfoLog(context: Context, withTitle: Boolean = true): String {
         return buildString {
             if (withTitle) appendLine("======= APP INFO =======")
-            append("Package             : ").appendLine(BuildConfig.APPLICATION_ID)
+            append("Package             : ").appendLine(dev.patrickgold.florisboard.BuildConfig.APPLICATION_ID)
             append("Name                : ").appendLine(context.resources.getString(R.string.floris_app_name))
-            append("Version             : ").appendLine("${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})")
-            append("Build type          : ").appendLine(BuildConfig.BUILD_TYPE)
-            append("Build commit hash   : ").appendLine(BuildConfig.BUILD_COMMIT_HASH)
+            append("Version             : ").appendLine("${dev.patrickgold.florisboard.BuildConfig.VERSION_NAME} (${dev.patrickgold.florisboard.BuildConfig.VERSION_CODE})")
+            append("Build type          : ").appendLine(dev.patrickgold.florisboard.BuildConfig.BUILD_TYPE)
+            append("Build commit hash   : ").appendLine(dev.patrickgold.florisboard.BuildConfig.BUILD_COMMIT_HASH)
             append("Java heap memory    : ").appendLine(getAppJavaHeapMemoryUsage())
             append("Native heap memory  : ").appendLine(getAppNativeHeapMemoryUsage())
         }

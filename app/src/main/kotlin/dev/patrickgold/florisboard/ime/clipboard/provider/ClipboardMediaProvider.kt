@@ -46,7 +46,7 @@ class ClipboardMediaProvider : ContentProvider() {
     private val ioScope: CoroutineScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     companion object {
-        const val AUTHORITY = "${BuildConfig.APPLICATION_ID}.provider.clipboard"
+        const val AUTHORITY = "${dev.patrickgold.florisboard.BuildConfig.APPLICATION_ID}.provider.clipboard"
         val IMAGE_CLIPS_URI: Uri = Uri.parse("content://$AUTHORITY/clips/images")
         val VIDEO_CLIPS_URI: Uri = Uri.parse("content://$AUTHORITY/clips/videos")
 

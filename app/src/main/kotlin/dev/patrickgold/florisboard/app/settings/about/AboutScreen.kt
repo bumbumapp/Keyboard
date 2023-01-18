@@ -36,7 +36,7 @@ import dev.patrickgold.florisboard.app.LocalNavController
 import dev.patrickgold.florisboard.app.Routes
 import dev.patrickgold.florisboard.clipboardManager
 import dev.patrickgold.florisboard.lib.android.launchUrl
-import dev.patrickgold.florisboard.lib.android.stringRes
+//import dev.patrickgold.florisboard.lib.android.stringRes
 import dev.patrickgold.florisboard.lib.compose.FlorisCanvasIcon
 import dev.patrickgold.florisboard.lib.compose.FlorisScreen
 import dev.patrickgold.florisboard.lib.compose.stringRes
@@ -50,7 +50,7 @@ fun AboutScreen() = FlorisScreen {
     val context = LocalContext.current
     val clipboardManager by context.clipboardManager()
 
-    val appVersion = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+    val appVersion = "${dev.patrickgold.florisboard.BuildConfig.VERSION_NAME} (${dev.patrickgold.florisboard.BuildConfig.VERSION_CODE})"
 
     content {
         Column(
@@ -81,11 +81,11 @@ fun AboutScreen() = FlorisScreen {
                     clipboardManager.addNewPlaintext(appVersion)
                     Toast.makeText(context, R.string.about__version_copied__title, Toast.LENGTH_SHORT).show()
                 } catch (e: Throwable) {
-                    Toast.makeText(
-                        context,
-                        context.stringRes(R.string.about__version_copied__error, "error_message" to e.message),
-                        Toast.LENGTH_SHORT,
-                    ).show()
+//                    Toast.makeText(
+//                        context,
+////                        context.stringRes(R.string.about__version_copied__error, "error_message" to e.message),
+//                        Toast.LENGTH_SHORT,
+//                    ).show()
                 }
             },
         )
@@ -93,7 +93,7 @@ fun AboutScreen() = FlorisScreen {
             iconId = R.drawable.ic_history,
             title = stringRes(R.string.about__changelog__title),
             summary = stringRes(R.string.about__changelog__summary),
-            onClick = { context.launchUrl(R.string.florisboard__changelog_url, "version" to BuildConfig.VERSION_NAME) },
+            onClick = { context.launchUrl(R.string.florisboard__changelog_url, "version" to dev.patrickgold.florisboard.BuildConfig.VERSION_NAME) },
         )
         Preference(
             iconId = R.drawable.ic_code,

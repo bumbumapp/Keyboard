@@ -62,7 +62,7 @@ fun SplashScreen() = Box(
 
     FlorisCanvasIcon(
         modifier = Modifier.requiredSize(92.dp),
-        iconId = R.mipmap.floris_app_icon,
-        contentDescription = "FlorisBoard app icon",
+        iconId = R.mipmap.logo,
+        contentDescription = "Keyboard app icon",
     )
 }

@@ -53,16 +53,7 @@ fun ThemeScreen() = FlorisScreen {
         val dayThemeId by prefs.theme.dayThemeId.observeAsState()
         val nightThemeId by prefs.theme.nightThemeId.observeAsState()
 
-        Card(modifier = Modifier.padding(8.dp)) {
-            Column(modifier = Modifier.padding(8.dp)) {
-                Text("If you want to give feedback on the new stylesheet editor and theme engine, please do so in below linked feedback thread:\n")
-                Button(onClick = {
-                    context.launchUrl("https://github.com/florisboard/florisboard/discussions/1531")
-                }) {
-                    Text("Open Feedback Thread")
-                }
-            }
-        }
+
 
         ListPreference(
             prefs.theme.mode,
@@ -93,7 +84,7 @@ fun ThemeScreen() = FlorisScreen {
             Preference(
                 iconId = R.drawable.ic_light_mode,
                 title = stringRes(R.string.pref__theme__any_theme__label),
-                summary = dayThemeId.toString(),
+                summary = "keyboard.themes:keyboard_day",
                 onClick = {
                     navController.navigate(Routes.Settings.ThemeManager(ThemeManagerScreenAction.SELECT_DAY))
                 },
@@ -114,7 +105,7 @@ fun ThemeScreen() = FlorisScreen {
             Preference(
                 iconId = R.drawable.ic_dark_mode,
                 title = stringRes(R.string.pref__theme__any_theme__label),
-                summary = nightThemeId.toString(),
+                summary = "keyboard.themes:keyboard_night",
                 onClick = {
                     navController.navigate(Routes.Settings.ThemeManager(ThemeManagerScreenAction.SELECT_NIGHT))
                 },

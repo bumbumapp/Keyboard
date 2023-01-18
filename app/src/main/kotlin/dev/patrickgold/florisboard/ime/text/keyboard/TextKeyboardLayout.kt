@@ -59,6 +59,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import dev.patrickgold.florisboard.FlorisImeService
 import dev.patrickgold.florisboard.app.florisPreferenceModel
@@ -376,24 +377,62 @@ private fun TextKeyButton(
             if (key.computedData.code == KeyCode.SPACE) {
                 val prefs by florisPreferenceModel()
                 val displayLanguageName by prefs.keyboard.spaceBarLanguageDisplayEnabled.observeAsState()
+                Text(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .align(Alignment.CenterStart)
+                        .padding(0.dp,0.dp,0.dp,0.dp),
+                    text = "〈",
+                    color = keyStyle.foreground.solidColor(),
+                    fontSize = 15.sp,
+                )
+                Text(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .align(Alignment.CenterEnd)
+                        .padding(0.dp,0.dp,0.dp,0.dp),
+                    text = "〉",
+                    color =keyStyle.foreground.solidColor(),
+                    fontSize = 15.sp,
+
+                    )
+
                 if (!displayLanguageName) {
                     return@let
                 }
+                Text(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .align(if (isTelpadKey) BiasAlignment(-0.5f, 0f) else Alignment.Center)
+                        .padding(15.dp,0.dp,14.dp,0.dp),
+                    text = label,
+                    color = keyStyle.foreground.solidColor(),
+                    fontSize = fontSize,
+                    maxLines = if (key.computedData.code == KeyCode.VIEW_NUMERIC_ADVANCED) 2 else 1,
+                    softWrap = key.computedData.code == KeyCode.VIEW_NUMERIC_ADVANCED,
+                    overflow = when (key.computedData.code) {
+                        KeyCode.SPACE -> TextOverflow.Ellipsis
+                        else -> TextOverflow.Visible
+                    },
+                )
             }
-            Text(
-                modifier = Modifier
-                    .wrapContentSize()
-                    .align(if (isTelpadKey) BiasAlignment(-0.5f, 0f) else Alignment.Center),
-                text = label,
-                color = keyStyle.foreground.solidColor(),
-                fontSize = fontSize,
-                maxLines = if (key.computedData.code == KeyCode.VIEW_NUMERIC_ADVANCED) 2 else 1,
-                softWrap = key.computedData.code == KeyCode.VIEW_NUMERIC_ADVANCED,
-                overflow = when (key.computedData.code) {
-                    KeyCode.SPACE -> TextOverflow.Ellipsis
-                    else -> TextOverflow.Visible
-                },
-            )
+            else{
+                Text(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .align(if (isTelpadKey) BiasAlignment(-0.5f, 0f) else Alignment.Center),
+                    text = label,
+                    color = keyStyle.foreground.solidColor(),
+                    fontSize = fontSize,
+                    maxLines = if (key.computedData.code == KeyCode.VIEW_NUMERIC_ADVANCED) 2 else 1,
+                    softWrap = key.computedData.code == KeyCode.VIEW_NUMERIC_ADVANCED,
+                    overflow = when (key.computedData.code) {
+                        KeyCode.SPACE -> TextOverflow.Ellipsis
+                        else -> TextOverflow.Visible
+                    },
+                )
+            }
+
         }
         key.hintedLabel?.let { hintedLabel ->
             val keyHintStyle = FlorisImeTheme.style.get(
@@ -438,6 +477,8 @@ private fun TextKeyButton(
         )
     }
 }
+
+
 
 @Suppress("unused_parameter")
 private class TextKeyboardLayoutController(
@@ -531,8 +572,8 @@ private class TextKeyboardLayoutController(
                         val alwaysTriggerOnMove = (pointer.hasTriggeredGestureMove
                             && (pointer.initialKey?.computedData?.code == KeyCode.DELETE
                             && prefs.gestures.deleteKeySwipeLeft.get().let {
-                                it == SwipeAction.DELETE_CHARACTERS_PRECISELY || it == SwipeAction.SELECT_CHARACTERS_PRECISELY
-                            }
+                            it == SwipeAction.DELETE_CHARACTERS_PRECISELY || it == SwipeAction.SELECT_CHARACTERS_PRECISELY
+                        }
                             || pointer.initialKey?.computedData?.code == KeyCode.SPACE
                             || pointer.initialKey?.computedData?.code == KeyCode.CJK_SPACE))
                         if (swipeGestureDetector.onTouchMove(event, pointer, alwaysTriggerOnMove) || pointer.hasTriggeredGestureMove) {
@@ -876,7 +917,8 @@ private class TextKeyboardLayoutController(
                         }
                         true
                     } else {
-                        action != SwipeAction.NO_ACTION
+                        keyboardManager.executeSwipeAction(action)
+                        true
                     }
                 }
                 SwipeGesture.Direction.RIGHT -> {
@@ -895,7 +937,8 @@ private class TextKeyboardLayoutController(
                         }
                         true
                     } else {
-                        action != SwipeAction.NO_ACTION
+                        keyboardManager.executeSwipeAction(action)
+                        true
                     }
                 }
                 else -> false
