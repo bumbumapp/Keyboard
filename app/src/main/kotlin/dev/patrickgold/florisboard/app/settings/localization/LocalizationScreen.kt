@@ -16,7 +16,11 @@
 
 package dev.patrickgold.florisboard.app.settings.localization
 
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import android.provider.Settings.Global.getString
+import android.util.Log
 import android.widget.EditText
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
@@ -55,6 +59,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.patrickgold.florisboard.app.Globals
+import com.patrickgold.florisboard.app.Timers
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.app.LocalNavController
 import dev.patrickgold.florisboard.app.Routes
@@ -85,6 +97,7 @@ import kotlinx.serialization.encodeToString
 
 private val SelectComponentName = ExtensionComponentName("00", "00")
 private val SelectNlpProviderId = SelectComponentName.toString()
+var mInterstitialAd:InterstitialAd?=null
 
 private val SelectLayoutMap = SubtypeLayoutMap(
     characters = SelectComponentName,
@@ -98,7 +111,12 @@ private val SelectLayoutMap = SubtypeLayoutMap(
 )
 private val SelectLocale = FlorisLocale.from("00", "00")
 
+fun Context.findActivity(): Activity? = when (this) {
+    is Activity -> this
+    is ContextWrapper -> baseContext.findActivity()
 
+    else -> null
+}
 
 private class SubtypeEditorStates(init: Subtype?) {
     companion object {
@@ -144,7 +162,27 @@ private class SubtypeEditorStates(init: Subtype?) {
         popupMapping.value = subtype.popupMapping
         layoutMap.value = subtype.layoutMap
     }
+    fun showInterstitial(context: Context) {
+        val activity = context.findActivity()
+            mInterstitialAd?.show(activity!!)
 
+    }
+    fun loadInterstitial(context: Context) {
+        InterstitialAd.load(
+            context,
+            context.getString(R.string.interstitial_id), //Change this with your own AdUnitID!
+            AdRequest.Builder().build(),
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    mInterstitialAd = null
+                }
+
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    mInterstitialAd = interstitialAd
+                }
+            }
+        )
+    }
     fun toSubtype() = runCatching<Subtype> {
         check(primaryLocale.value != SelectLocale)
         check(nlpProviders.value.spelling != SelectNlpProviderId)
@@ -201,11 +239,13 @@ fun LocalizationScreen(id:Long?) = FlorisScreen {
             text = { Text(
                 text = stringRes(R.string.settings__localization__subtype_add_title),
             ) },
-            onClick = { showSubtypePresetsDialog = true },
+            onClick = {
+                showSubtypePresetsDialog=true
+            } ,
         )
     }
 
-
+    subtypeEditor.loadInterstitial(context)
     content {
 
         ListPreference(
@@ -316,11 +356,30 @@ fun LocalizationScreen(id:Long?) = FlorisScreen {
 
                        items(filteredSystemLocales) { subtypePreset->
                            JetPrefListItem(
-
                                modifier = Modifier.clickable {
-                                   subtypeEditor.applySubtype(subtypePreset.toSubtype())
-                                   saveSubtype = subtypePreset.toSubtype()
-                                   showSubtypePresetsDialog = false
+                                   if(mInterstitialAd!=null){
+                                       subtypeEditor.showInterstitial(context)
+                                       mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+                                           override fun onAdFailedToShowFullScreenContent(e: AdError) {
+                                               mInterstitialAd = null
+                                           }
+
+                                           override fun onAdDismissedFullScreenContent() {
+                                               subtypeEditor.applySubtype(subtypePreset.toSubtype())
+                                               saveSubtype = subtypePreset.toSubtype()
+                                               showSubtypePresetsDialog = false
+                                               mInterstitialAd = null
+                                               subtypeEditor.loadInterstitial(context)
+                                               Globals.TIMER_FINISHED = false
+                                               Timers.timer().start()
+
+                                           }
+                                       }
+                                   }else{
+                                       subtypeEditor.applySubtype(subtypePreset.toSubtype())
+                                       saveSubtype = subtypePreset.toSubtype()
+                                       showSubtypePresetsDialog = false
+                                   }
 
                                },
                                text = when (displayLanguageNamesIn) {
@@ -330,6 +389,7 @@ fun LocalizationScreen(id:Long?) = FlorisScreen {
                                    )
                                },
                                secondaryText = subtypePreset.preferred.characters.componentId,
+
                            )
                        }
                    }
@@ -379,8 +439,7 @@ fun LocalizationScreen(id:Long?) = FlorisScreen {
                 Text(text = stringRes(strId))
             }
         }
-        //PreferenceGroup(title = stringRes(R.string.settings__localization__group_layouts__label)) {
-        //}
+
     }
 
 }

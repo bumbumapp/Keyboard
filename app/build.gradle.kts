@@ -27,11 +27,13 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.mannodermaus.android.junit5)
     alias(libs.plugins.mikepenz.aboutlibraries)
+    id("com.google.gms.google-services")
+    id ("com.google.firebase.crashlytics")
 }
 
 android {
     namespace = "dev.patrickgold.florisboard"
-    compileSdk = 31
+    compileSdk = 33
     buildToolsVersion = "31.0.0"
     ndkVersion = "22.1.7171670"
 
@@ -53,9 +55,9 @@ android {
     defaultConfig {
         applicationId = "com.bumbumapps.keyboardpro"
         minSdk = 24
-        targetSdk = 31
-        versionCode = 1
-        versionName = "1.0.0"
+        targetSdk = 33
+        versionCode = 7
+        versionName = "1.1.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -119,9 +121,6 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix = ".debug"
-            versionNameSuffix = "-debug-${getGitCommitHash(short = true)}"
-
             isDebuggable = true
             isJniDebuggable = false
 
@@ -187,6 +186,11 @@ dependencies {
     implementation(libs.androidx.emoji2.views)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.profileinstaller)
+    implementation("com.google.android.gms:play-services-ads-lite:21.5.0")
+    implementation (platform("com.google.firebase:firebase-bom:26.1.0"))
+    // Declare the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation ("com.google.firebase:firebase-crashlytics")
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.runtime)
     implementation(libs.cache4k)

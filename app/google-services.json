@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "383606553844",
+    "project_id": "keyboard-81206",
+    "storage_bucket": "keyboard-81206.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383606553844:android:29eadfb2617c07e31cb2a1",
+        "android_client_info": {
+          "package_name": "com.bumbumapps.keyboardpro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383606553844-nb772974hhtcg3e594vageuun0dmfgs8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4TMcbiq_7IGaDjo8it9CrsPcseBfAkeA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383606553844-nb772974hhtcg3e594vageuun0dmfgs8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

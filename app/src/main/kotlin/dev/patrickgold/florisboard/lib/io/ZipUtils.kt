@@ -104,19 +104,27 @@ object ZipUtils {
         }
     }
 
-    fun unzip(context: Context, srcRef: FlorisRef, dstRef: FlorisRef) =
+    fun unzip(context: Context, srcRef: FlorisRef, dstRef: FlorisRef)=
         unzip(context, srcRef, FsDir(dstRef.absolutePath(context)))
 
     fun unzip(context: Context, srcRef: FlorisRef, dstDir: FsFile) = runCatching {
-        check(dstDir.exists() && dstDir.isDirectory) { "Cannot unzip into file." }
-        dstDir.mkdirs()
+        if (dstDir.absolutePath.contains("../")){
+            throw IllegalArgumentException("Target directory is invalid!")
+        }else{
+            check(dstDir.exists() && dstDir.isDirectory) { "Cannot unzip into file." }
+            dstDir.mkdirs()
+        }
+
         when {
             srcRef.isAssets -> {
                 context.assets.copyRecursively(srcRef.relativePath.removeSuffix("/"), dstDir)
             }
             srcRef.isCache || srcRef.isInternal -> {
                 val flexHandle = FsFile(srcRef.absolutePath(context))
-                unzip(srcFile = flexHandle, dstDir = dstDir)
+
+                    unzip(srcFile = flexHandle, dstDir = dstDir)
+
+
             }
             else -> error("Unsupported source!")
         }
@@ -142,11 +150,17 @@ object ZipUtils {
             while (flexEntries.hasMoreElements()) {
                 val flexEntry = flexEntries.nextElement()
                 val flexEntryFile = FsFile(dstDir, flexEntry.name)
-                if (flexEntry.isDirectory) {
-                    flexEntryFile.mkdir()
-                } else {
-                    flexFile.copy(flexEntry, flexEntryFile)
+                val canonicalPath: String = flexEntryFile.canonicalPath
+                if (!canonicalPath.startsWith(dstDir.toString())) {
+                    throw IllegalArgumentException("Target directory is invalid!")
+                }else{
+                    if (flexEntry.isDirectory) {
+                        flexEntryFile.mkdir()
+                    } else {
+                        flexFile.copy(flexEntry, flexEntryFile)
+                    }
                 }
+
             }
         }
     }

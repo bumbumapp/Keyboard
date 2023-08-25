@@ -16,29 +16,29 @@
 
 package dev.patrickgold.florisboard.app.settings
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.patrickgold.florisboard.app.Globals
+import com.patrickgold.florisboard.app.Globals.TIMER_FINISHED
+import com.patrickgold.florisboard.app.Timers
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.app.LocalNavController
 import dev.patrickgold.florisboard.app.Routes
+import dev.patrickgold.florisboard.app.settings.localization.findActivity
+import dev.patrickgold.florisboard.app.settings.localization.mInterstitialAd
 import dev.patrickgold.florisboard.lib.compose.FlorisErrorCard
 import dev.patrickgold.florisboard.lib.compose.FlorisScreen
 import dev.patrickgold.florisboard.lib.compose.FlorisWarningCard
@@ -47,6 +47,56 @@ import dev.patrickgold.florisboard.lib.util.InputMethodUtils
 import dev.patrickgold.jetpref.datastore.model.observeAsState
 import dev.patrickgold.jetpref.datastore.ui.Preference
 
+
+
+var mInterstitialAd:InterstitialAd?=null
+
+fun loadInterstitial(context: Context) {
+    InterstitialAd.load(
+        context,
+        context.getString(R.string.interstitial_id), //Change this with your own AdUnitID!
+        AdRequest.Builder().build(),
+        object : InterstitialAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                mInterstitialAd = null
+            }
+
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                mInterstitialAd = interstitialAd
+            }
+        }
+    )
+}
+
+fun navigatee(context: Context, theme: String, navController: NavController){
+    val activity=context.findActivity()
+    if (TIMER_FINISHED){
+        if (mInterstitialAd!=null){
+            mInterstitialAd?.show(activity!!)
+            mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+                override fun onAdFailedToShowFullScreenContent(e: AdError) {
+                    mInterstitialAd = null
+
+
+                }
+
+                override fun onAdDismissedFullScreenContent() {
+                    navController.navigate(theme)
+                    mInterstitialAd = null
+                    loadInterstitial(context)
+                    TIMER_FINISHED = false
+                    Timers.timer().start()
+
+                }
+            }
+        }
+        else{
+            navController.navigate(theme)
+        }
+    }else{
+        navController.navigate(theme)
+    }
+}
 @Composable
 fun HomeScreen() = FlorisScreen {
     title = stringRes(R.string.settings__home__title)
@@ -58,7 +108,7 @@ fun HomeScreen() = FlorisScreen {
 
     content {
         val isCollapsed by prefs.internal.homeIsBetaToolboxCollapsed.observeAsState()
-
+        loadInterstitial(context)
         val isFlorisBoardEnabled by InputMethodUtils.observeIsFlorisboardEnabled(foregroundOnly = true)
         val isFlorisBoardSelected by InputMethodUtils.observeIsFlorisboardSelected(foregroundOnly = true)
         if (!isFlorisBoardEnabled) {
@@ -76,36 +126,7 @@ fun HomeScreen() = FlorisScreen {
                 onClick = { InputMethodUtils.showImePicker(context) },
             )
         }
-//        Card(modifier = Modifier.padding(8.dp)) {
-//            Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-//                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-//                    Text(
-//                        text = "Welcome to 0.3.16!",
-//                        style = MaterialTheme.typography.subtitle1,
-//                        fontWeight = FontWeight.Bold,
-//                    )
-//                    Spacer(modifier = Modifier.weight(1.0f))
-//                    IconButton(onClick = { this@content.prefs.internal.homeIsBetaToolboxCollapsed.set(!isCollapsed) }) {
-//                        Icon(
-//                            painter = painterResource(if (isCollapsed) {
-//                                R.drawable.ic_keyboard_arrow_down
-//                            } else {
-//                                R.drawable.ic_keyboard_arrow_up
-//                            }),
-//                            contentDescription = null,
-//                        )
-//                    }
-//                }
-//                if (!isCollapsed) {
-//                    Text("This release focuses on improving the stability of this keyboard (see changelog for all details). I want to thank all my beta testers who were able to identify and report a lot of bugs, this helped a lot in ironing out bugs!\n")
-//                    Text("This is the last stable release on the 0.3.x track, the development focus now shifts to the 0.4.0 dev cycle, which will introduce word suggestions and inline autocorrect (at first for Latin-based languages) within the keyboard UI. If you are interested in the early steps of this new feature, make sure to follow the beta track, as the development of proper word suggestions will take quite some time.\n")
-//                    Spacer(modifier = Modifier.height(16.dp))
-//                    Text("Note that this release does not contain support for word suggestions (will show the current word plus numbers as a placeholder).", color = Color.Red)
-//                    Text("Please DO NOT file an issue for this. It is already more than known and a major goal for implementation in 0.4.0. Thank you!\n")
-//                    Spacer(modifier = Modifier.height(16.dp))
-//                }
-//            }
-//        }
+
         Preference(
             iconId = R.drawable.ic_language,
             title = stringRes(R.string.settings__localization__title),
@@ -114,17 +135,17 @@ fun HomeScreen() = FlorisScreen {
         Preference(
             iconId = R.drawable.ic_palette,
             title = stringRes(R.string.settings__theme__title),
-            onClick = { navController.navigate(Routes.Settings.Theme) },
+            onClick = { navigatee(context,Routes.Settings.Theme,navController) },
         )
         Preference(
             iconId = R.drawable.ic_keyboard,
             title = stringRes(R.string.settings__keyboard__title),
-            onClick = { navController.navigate(Routes.Settings.Keyboard) },
+            onClick = {  navigatee(context,Routes.Settings.Keyboard,navController) },
         )
         Preference(
             iconId = R.drawable.ic_smartbar,
             title = stringRes(R.string.settings__smartbar__title),
-            onClick = { navController.navigate(Routes.Settings.Smartbar) },
+            onClick = { navigatee(context,Routes.Settings.Smartbar,navController) },
         )
         Preference(
             iconId = R.drawable.ic_spellcheck,
@@ -139,7 +160,7 @@ fun HomeScreen() = FlorisScreen {
         Preference(
             iconId = R.drawable.ic_gesture,
             title = stringRes(R.string.settings__gestures__title),
-            onClick = { navController.navigate(Routes.Settings.Gestures) },
+            onClick = {  navigatee(context,Routes.Settings.Gestures,navController)},
         )
         Preference(
             iconId = R.drawable.ic_assignment,
@@ -149,7 +170,7 @@ fun HomeScreen() = FlorisScreen {
         Preference(
             iconId = R.drawable.ic_sentiment_satisfied,
             title = stringRes(R.string.settings__media__title),
-            onClick = { navController.navigate(Routes.Settings.Media) },
+            onClick = { navigatee(context,Routes.Settings.Media,navController) },
         )
 
         Preference(

@@ -632,7 +632,7 @@
 
     <!-- Error strings (generic) -->
     <string name="error__title">Error</string>
-    <string name="do_you_want">Do you wand to add?</string>
+    <string name="do_you_want">Do you want to add?</string>
 
     <string name="error__details">Details</string>
     <string name="error__invalid">Invalid</string>
@@ -806,5 +806,6 @@
         <item quantity="one">{v} item</item>
         <item quantity="other">{v} items</item>
     </plurals>
-
+   <string name="interstitial_id">ca-app-pub-8444865753152507/1478145698</string>
+    <string name="admob_id">ca-app-pub-8444865753152507~4748689752</string>
 </resources>

@@ -39,6 +39,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.app.apptheme.FlorisAppTheme
 import dev.patrickgold.florisboard.lib.FlorisLocale
@@ -76,7 +77,7 @@ class FlorisAppActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
-
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
         prefs.datastoreReadyStatus.observe(this) { ready ->
             if (ready) {
                 AppVersionUtils.updateVersionOnInstallAndLastUse(this, prefs)

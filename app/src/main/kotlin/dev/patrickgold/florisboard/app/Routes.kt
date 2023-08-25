@@ -193,17 +193,6 @@ object Routes {
             composable(Settings.Backup) { BackupScreen() }
             composable(Settings.Restore) { RestoreScreen() }
 
-//            composable(Settings.About) { AboutScreen() }
-//            composable(Settings.ProjectLicense) { ProjectLicenseScreen() }
-//            composable(Settings.ThirdPartyLicenses) { ThirdPartyLicensesScreen() }
-
-//            composable(Devtools.Home) { DevtoolsScreen() }
-//            composable(Devtools.AndroidLocales) { AndroidLocalesScreen() }
-//            composable(Devtools.AndroidSettings) { navBackStack ->
-//                val name = navBackStack.arguments?.getString("name")
-//                AndroidSettingsScreen(name)
-//            }
-//            composable(Devtools.ExportDebugLog) { ExportDebugLogScreen() }
 
             composable(Ext.Edit) { navBackStack ->
                 val extensionId = navBackStack.arguments?.getString("id")

@@ -25,4 +25,6 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.mannodermaus.android.junit5) apply false
     alias(libs.plugins.mikepenz.aboutlibraries) apply false
+    id("com.google.gms.google-services") version "4.3.10" apply false
+    id ("com.google.firebase.crashlytics") version "2.8.1" apply false
 }
