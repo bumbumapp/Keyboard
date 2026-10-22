@@ -806,6 +806,5 @@
         <item quantity="one">{v} item</item>
         <item quantity="other">{v} items</item>
     </plurals>
-   <string name="interstitial_id">ca-app-pub-8444865753152507/1478145698</string>
-    <string name="admob_id">ca-app-pub-8444865753152507~4748689752</string>
+    <string name="ads__privacy_options">Privacy options</string>
 </resources>

@@ -17,6 +17,8 @@
 package dev.patrickgold.florisboard.app.settings
 
 import android.content.Context
+import dev.patrickgold.florisboard.ads.AdsConsent
+import dev.patrickgold.florisboard.ads.InterstitialHelper
 import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -25,20 +27,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.google.android.gms.ads.AdError
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.FullScreenContentCallback
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.patrickgold.florisboard.app.Globals
-import com.patrickgold.florisboard.app.Globals.TIMER_FINISHED
-import com.patrickgold.florisboard.app.Timers
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.app.LocalNavController
 import dev.patrickgold.florisboard.app.Routes
 import dev.patrickgold.florisboard.app.settings.localization.findActivity
-import dev.patrickgold.florisboard.app.settings.localization.mInterstitialAd
 import dev.patrickgold.florisboard.lib.compose.FlorisErrorCard
 import dev.patrickgold.florisboard.lib.compose.FlorisScreen
 import dev.patrickgold.florisboard.lib.compose.FlorisWarningCard
@@ -49,53 +41,9 @@ import dev.patrickgold.jetpref.datastore.ui.Preference
 
 
 
-var mInterstitialAd:InterstitialAd?=null
-
-fun loadInterstitial(context: Context) {
-    InterstitialAd.load(
-        context,
-        context.getString(R.string.interstitial_id), //Change this with your own AdUnitID!
-        AdRequest.Builder().build(),
-        object : InterstitialAdLoadCallback() {
-            override fun onAdFailedToLoad(adError: LoadAdError) {
-                mInterstitialAd = null
-            }
-
-            override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                mInterstitialAd = interstitialAd
-            }
-        }
-    )
-}
-
-fun navigatee(context: Context, theme: String, navController: NavController){
-    val activity=context.findActivity()
-    if (TIMER_FINISHED){
-        if (mInterstitialAd!=null){
-            mInterstitialAd?.show(activity!!)
-            mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
-                override fun onAdFailedToShowFullScreenContent(e: AdError) {
-                    mInterstitialAd = null
-
-
-                }
-
-                override fun onAdDismissedFullScreenContent() {
-                    navController.navigate(theme)
-                    mInterstitialAd = null
-                    loadInterstitial(context)
-                    TIMER_FINISHED = false
-                    Timers.timer().start()
-
-                }
-            }
-        }
-        else{
-            navController.navigate(theme)
-        }
-    }else{
-        navController.navigate(theme)
-    }
+/** Settings navigation is a natural break point: show the preloaded interstitial (60 s cap), then navigate. */
+fun navigatee(context: Context, theme: String, navController: NavController) {
+    InterstitialHelper.showIfReady(context.findActivity()) { navController.navigate(theme) }
 }
 @Composable
 fun HomeScreen() = FlorisScreen {
@@ -108,7 +56,6 @@ fun HomeScreen() = FlorisScreen {
 
     content {
         val isCollapsed by prefs.internal.homeIsBetaToolboxCollapsed.observeAsState()
-        loadInterstitial(context)
         val isFlorisBoardEnabled by InputMethodUtils.observeIsFlorisboardEnabled(foregroundOnly = true)
         val isFlorisBoardSelected by InputMethodUtils.observeIsFlorisboardSelected(foregroundOnly = true)
         if (!isFlorisBoardEnabled) {
@@ -178,6 +125,14 @@ fun HomeScreen() = FlorisScreen {
             title = stringRes(R.string.settings__advanced__title),
             onClick = { navController.navigate(Routes.Settings.Advanced) },
         )
+        // UMP: users in regions that require it must be able to change their ad consent.
+        if (AdsConsent.isPrivacyOptionsRequired(context)) {
+            Preference(
+                iconId = R.drawable.ic_policy,
+                title = stringRes(R.string.ads__privacy_options),
+                onClick = { context.findActivity()?.let { AdsConsent.showPrivacyOptions(it) } },
+            )
+        }
 
     }
 }
