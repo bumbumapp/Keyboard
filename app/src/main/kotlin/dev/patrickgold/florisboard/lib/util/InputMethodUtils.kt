@@ -31,14 +31,35 @@ private const val DELIMITER = ':'
 private const val IME_SERVICE_CLASS_NAME = "dev.patrickgold.florisboard.FlorisImeService"
 
 object InputMethodUtils {
+    /**
+     * Apps targeting recent SDKs can no longer read Settings.Secure.ENABLED_INPUT_METHODS (returns
+     * null), so the setup wizard never advanced. Ask the InputMethodManager instead and only fall
+     * back to the settings string when it is readable.
+     */
     fun isFlorisboardEnabled(context: Context): Boolean {
+        val imm = context.getSystemService(android.view.inputmethod.InputMethodManager::class.java)
+        val viaImm = imm?.enabledInputMethodList?.any {
+            isFlorisboardComponent(context.packageName, it.packageName, it.serviceName)
+        }
+        if (viaImm == true) return true
         val enabledImeList = AndroidSettings.Secure.getString(context, Settings.Secure.ENABLED_INPUT_METHODS)
         return enabledImeList != null && parseIsFlorisboardEnabled(context, enabledImeList)
     }
 
     fun isFlorisboardSelected(context: Context): Boolean {
+        if (android.os.Build.VERSION.SDK_INT >= 34) {
+            val imm = context.getSystemService(android.view.inputmethod.InputMethodManager::class.java)
+            val current = imm?.currentInputMethodInfo
+            if (current != null) {
+                return isFlorisboardComponent(context.packageName, current.packageName, current.serviceName)
+            }
+        }
         val selectedIme = AndroidSettings.Secure.getString(context, Settings.Secure.DEFAULT_INPUT_METHOD)
         return selectedIme != null && parseIsFlorisboardSelected(context, selectedIme)
+    }
+
+    fun isFlorisboardComponent(ownPackage: String, packageName: String?, className: String?): Boolean {
+        return packageName == ownPackage && className == IME_SERVICE_CLASS_NAME
     }
 
     @Composable
@@ -48,7 +69,7 @@ object InputMethodUtils {
     ) = AndroidSettings.Secure.observeAsState(
         key = Settings.Secure.ENABLED_INPUT_METHODS,
         foregroundOnly = foregroundOnly,
-        transform = { parseIsFlorisboardEnabled(context, it.toString()) },
+        transform = { isFlorisboardEnabled(context) },
     )
 
     @Composable
@@ -58,7 +79,7 @@ object InputMethodUtils {
     ) = AndroidSettings.Secure.observeAsState(
         key = Settings.Secure.DEFAULT_INPUT_METHOD,
         foregroundOnly = foregroundOnly,
-        transform = { parseIsFlorisboardSelected(context, it.toString()) },
+        transform = { isFlorisboardSelected(context) },
     )
 
     fun parseIsFlorisboardEnabled(context: Context, activeImeIds: String): Boolean {
