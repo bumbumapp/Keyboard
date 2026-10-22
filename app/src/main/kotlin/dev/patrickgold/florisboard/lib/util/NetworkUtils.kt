@@ -33,7 +33,7 @@ object NetworkUtils {
     }
 
     fun getUrls(str: CharSequence): List<MatchGroup> {
-        return UrlRegex.findAll(str).mapNotNull { it.groups["Url"] }.toList()
+        return UrlRegex.findAll(str).mapNotNull { it.groups[1] /* (?<Url>…) is group 1; named lookup needs API 26 */ }.toList()
     }
 
     fun isEmailAddress(str: CharSequence): Boolean {
@@ -41,6 +41,6 @@ object NetworkUtils {
     }
 
     fun getEmailAddresses(str: CharSequence): List<MatchGroup> {
-        return EmailRegex.findAll(str).mapNotNull { it.groups["Email"] }.toList()
+        return EmailRegex.findAll(str).mapNotNull { it.groups[1] /* (?<Email>…) is group 1; named lookup needs API 26 */ }.toList()
     }
 }

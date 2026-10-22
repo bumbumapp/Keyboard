@@ -32,7 +32,7 @@ object EmojiRecentlyUsedHelper {
         list.add(0, emoji)
         if (maxSize > 0) {
             while (list.size > maxSize) {
-                list.removeLast()
+                list.removeAt(list.lastIndex)
             }
         }
         prefs.media.emojiRecentlyUsed.set(list.distinctBy { it.value })
