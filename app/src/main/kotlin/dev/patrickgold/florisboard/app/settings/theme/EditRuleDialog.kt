@@ -1,3 +1,5 @@
+@file:OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
+
 /*
  * Copyright (C) 2022 Patrick Goldinger
  *
@@ -61,7 +63,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.flowlayout.FlowRow
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.FlowRow
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.ime.input.InputKeyEventReceiver
 import dev.patrickgold.florisboard.ime.keyboard.ComputingEvaluator
@@ -269,7 +272,7 @@ internal fun EditRuleDialog(
             }
 
             DialogProperty(text = stringRes(R.string.settings__theme_editor__rule_shift_states)) {
-                FlowRow(mainAxisSpacing = 4.dp) {
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                     FlorisChip(
                         onClick = { shiftStateUnshifted = !shiftStateUnshifted },
                         text = when (level) {

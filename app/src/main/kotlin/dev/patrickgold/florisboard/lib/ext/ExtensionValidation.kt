@@ -33,7 +33,7 @@ object ExtensionValidation {
     private val ThemeComponentStylesheetPathRegex = """^[^:*<>"']*${'$'}""".toRegex()
     val ThemeComponentVariableNameRegex = """^[a-zA-Z0-9-_]+${'$'}""".toRegex()
 
-    val MetaId = ValidationRule<String> {
+    val MetaId: ValidationRule<String> = ValidationRule<String> {
         forKlass = ExtensionMeta::class
         forProperty = "id"
         validator { str ->
@@ -45,7 +45,7 @@ object ExtensionValidation {
         }
     }
 
-    val MetaVersion = ValidationRule<String> {
+    val MetaVersion: ValidationRule<String> = ValidationRule<String> {
         forKlass = ExtensionMeta::class
         forProperty = "version"
         validator { str ->
@@ -56,7 +56,7 @@ object ExtensionValidation {
         }
     }
 
-    val MetaTitle = ValidationRule<String> {
+    val MetaTitle: ValidationRule<String> = ValidationRule<String> {
         forKlass = ExtensionMeta::class
         forProperty = "title"
         validator { str ->
@@ -67,7 +67,7 @@ object ExtensionValidation {
         }
     }
 
-    val MetaMaintainers = ValidationRule<String> {
+    val MetaMaintainers: ValidationRule<String> = ValidationRule<String> {
         forKlass = ExtensionMeta::class
         forProperty = "maintainers"
         validator { str ->
@@ -79,7 +79,7 @@ object ExtensionValidation {
         }
     }
 
-    val MetaLicense = ValidationRule<String> {
+    val MetaLicense: ValidationRule<String> = ValidationRule<String> {
         forKlass = ExtensionMeta::class
         forProperty = "license"
         validator { str ->
@@ -90,7 +90,7 @@ object ExtensionValidation {
         }
     }
 
-    val ComponentId = ValidationRule<String> {
+    val ComponentId: ValidationRule<String> = ValidationRule<String> {
         forKlass = ExtensionComponent::class
         forProperty = "id"
         validator { str ->
@@ -102,7 +102,7 @@ object ExtensionValidation {
         }
     }
 
-    val ComponentLabel = ValidationRule<String> {
+    val ComponentLabel: ValidationRule<String> = ValidationRule<String> {
         forKlass = ExtensionComponent::class
         forProperty = "label"
         validator { str ->
@@ -114,7 +114,7 @@ object ExtensionValidation {
         }
     }
 
-    val ComponentAuthors = ValidationRule<String> {
+    val ComponentAuthors: ValidationRule<String> = ValidationRule<String> {
         forKlass = ExtensionComponent::class
         forProperty = "authors"
         validator { str ->
@@ -126,7 +126,7 @@ object ExtensionValidation {
         }
     }
 
-    val ThemeComponentStylesheetPath = ValidationRule<String> {
+    val ThemeComponentStylesheetPath: ValidationRule<String> = ValidationRule<String> {
         forKlass = ThemeExtensionComponent::class
         forProperty = "stylesheetPath"
         validator { str ->
@@ -141,7 +141,7 @@ object ExtensionValidation {
         }
     }
 
-    val ThemeComponentVariableName = ValidationRule<String> {
+    val ThemeComponentVariableName: ValidationRule<String> = ValidationRule<String> {
         forKlass = SnyggStylesheet::class
         forProperty = "propertyName"
         validator { input ->
@@ -157,7 +157,7 @@ object ExtensionValidation {
         }
     }
 
-    val SnyggSolidColorValue = ValidationRule<String> {
+    val SnyggSolidColorValue: ValidationRule<String> = ValidationRule<String> {
         forKlass = SnyggSolidColorValue::class
         forProperty = "color"
         validator { input ->
@@ -172,7 +172,7 @@ object ExtensionValidation {
         }
     }
 
-    val SnyggDpShapeValue = ValidationRule<String> {
+    val SnyggDpShapeValue: ValidationRule<String> = ValidationRule<String> {
         forKlass = SnyggDpShapeValue::class
         forProperty = "corner"
         validator { str ->
@@ -186,7 +186,7 @@ object ExtensionValidation {
         }
     }
 
-    val SnyggPercentShapeValue = ValidationRule<String> {
+    val SnyggPercentShapeValue: ValidationRule<String> = ValidationRule<String> {
         forKlass = SnyggPercentShapeValue::class
         forProperty = "corner"
         validator { str ->

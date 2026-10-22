@@ -24,20 +24,16 @@ plugins {
 
 android {
     namespace = "dev.patrickgold.florisboard.benchmark"
-    compileSdk = 32
+    compileSdk = 36
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 32
+        targetSdk = 36
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -75,5 +71,11 @@ dependencies {
 androidComponents {
     beforeVariants(selector().all()) {
         it.enable = it.buildType == "benchmark"
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
     }
 }

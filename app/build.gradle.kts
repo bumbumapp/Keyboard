@@ -17,12 +17,12 @@
 // Suppress needed until https://youtrack.jetbrains.com/issue/KTIJ-19369 is fixed
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
-import java.io.ByteArrayOutputStream
 import java.io.File
 
 plugins {
     alias(libs.plugins.agp.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.mannodermaus.android.junit5)
@@ -33,31 +33,22 @@ plugins {
 
 android {
     namespace = "dev.patrickgold.florisboard"
-    compileSdk = 33
-    buildToolsVersion = "31.0.0"
-    ndkVersion = "22.1.7171670"
+    compileSdk = 36
+    // NDK r28 links shared libraries with 16 KB page alignment by default.
+    ndkVersion = "28.2.13676358"
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-        freeCompilerArgs = listOf(
-            "-Xallow-result-return-type",
-            "-Xopt-in=kotlin.RequiresOptIn",
-            "-Xopt-in=kotlin.contracts.ExperimentalContracts",
-            "-Xjvm-default=compatibility",
-        )
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     defaultConfig {
         applicationId = "com.bumbumapps.keyboardpro"
         minSdk = 24
-        targetSdk = 33
-        versionCode = 7
-        versionName = "1.1.5"
+        targetSdk = 36
+        // Play: versionCode 10 is live.
+        versionCode = 11
+        versionName = "1.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -107,10 +98,19 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.get()
+    packaging {
+        jniLibs {
+            useLegacyPackaging = false
+        }
+    }
+
+    lint {
+        abortOnError = false
+        // Lint's own UElementAsPsi detector crashes on a Kotlin 2 lambda in this code base (lint bug).
+        disable += "UElementAsPsi"
     }
 
     externalNativeBuild {
@@ -133,6 +133,9 @@ android {
             resValue("mipmap", "floris_app_icon_round", "@mipmap/logo_round")
             resValue("drawable", "floris_app_icon_foreground", "@drawable/keyboard")
             resValue("string", "floris_app_name", "Keyboard pro")
+            // Google test ads in debug builds.
+            manifestPlaceholders["admobAppId"] = "ca-app-pub-3940256099942544~3347511713"
+            resValue("string", "admob_interstitial_id", "ca-app-pub-3940256099942544/1033173712")
         }
 
 
@@ -145,6 +148,8 @@ android {
             resValue("mipmap", "floris_app_icon_round", "@mipmap/logo_round")
             resValue("drawable", "floris_app_icon_foreground", "@drawable/keyboard")
             resValue("string", "floris_app_name", "Keyboard pro")
+            manifestPlaceholders["admobAppId"] = "ca-app-pub-8444865753152507~4748689752"
+            resValue("string", "admob_interstitial_id", "ca-app-pub-8444865753152507/1478145698")
         }
 
 
@@ -164,18 +169,28 @@ android {
     }
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        freeCompilerArgs.addAll(
+            "-opt-in=kotlin.RequiresOptIn",
+            "-opt-in=kotlin.contracts.ExperimentalContracts",
+            "-Xjvm-default=all-compatibility",
+        )
+    }
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }
 
 dependencies {
-    implementation(libs.accompanist.flowlayout)
-    implementation(libs.accompanist.insets)
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.autofill)
     implementation(libs.androidx.collection.ktx)
+    implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.runtime.livedata)
     implementation(libs.androidx.compose.ui)
@@ -186,11 +201,10 @@ dependencies {
     implementation(libs.androidx.emoji2.views)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.profileinstaller)
-    implementation("com.google.android.gms:play-services-ads-lite:21.5.0")
-    implementation (platform("com.google.firebase:firebase-bom:26.1.0"))
-    // Declare the dependencies for the Crashlytics and Analytics libraries
-    // When using the BoM, you don't specify versions in Firebase library dependencies
-    implementation ("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.android.gms:play-services-ads:25.5.0")
+    implementation("com.google.android.ump:user-messaging-platform:4.0.0")
+    implementation(platform("com.google.firebase:firebase-bom:34.4.0"))
+    implementation("com.google.firebase:firebase-crashlytics")
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.runtime)
     implementation(libs.cache4k)
@@ -217,14 +231,11 @@ fun getGitCommitHash(short: Boolean = false): String {
         return "null"
     }
 
-    val stdout = ByteArrayOutputStream()
-    exec {
-        if (short) {
-            commandLine("git", "rev-parse", "--short", "HEAD")
-        } else {
-            commandLine("git", "rev-parse", "HEAD")
-        }
-        standardOutput = stdout
+    return try {
+        val args = if (short) listOf("git", "rev-parse", "--short", "HEAD") else listOf("git", "rev-parse", "HEAD")
+        val p = ProcessBuilder(args).redirectErrorStream(true).start()
+        p.inputStream.bufferedReader().readText().trim().also { p.waitFor() }
+    } catch (e: Exception) {
+        "null"
     }
-    return stdout.toString().trim()
 }

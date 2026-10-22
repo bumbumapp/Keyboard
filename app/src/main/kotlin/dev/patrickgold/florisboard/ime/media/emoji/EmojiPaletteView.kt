@@ -1,3 +1,5 @@
+@file:OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
+
 /*
  * Copyright (C) 2022 Patrick Goldinger
  *
@@ -34,8 +36,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
@@ -76,7 +80,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Popup
 import androidx.emoji2.text.EmojiCompat
 import androidx.emoji2.widget.EmojiTextView
-import com.google.accompanist.flowlayout.FlowRow
+import androidx.compose.foundation.layout.FlowRow
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.app.florisPreferenceModel
 import dev.patrickgold.florisboard.editorInstance
@@ -149,7 +153,7 @@ fun EmojiPaletteView(
     }
 
     var activeCategory by remember { mutableStateOf(EmojiCategory.RECENTLY_USED) }
-    val lazyListState = rememberLazyListState()
+    val lazyListState = rememberLazyGridState()
     val scope = rememberCoroutineScope()
 
     val preferredSkinTone by prefs.media.emojiPreferredSkinTone.observeAsState()
@@ -204,9 +208,8 @@ fun EmojiPaletteView(
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                     LazyVerticalGrid(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .florisScrollbar(lazyListState, color = contentColor.copy(alpha = 0.28f), isVertical = true),
-                        cells = GridCells.Adaptive(minSize = EmojiBaseWidth),
+                            .fillMaxSize(),
+                        columns = GridCells.Adaptive(minSize = EmojiBaseWidth),
                         state = lazyListState,
                     ) {
                         items(emojiMapping) { emojiSet ->

@@ -21,10 +21,11 @@ plugins {
     alias(libs.plugins.agp.application) apply false
     alias(libs.plugins.agp.test) apply false
     alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.mannodermaus.android.junit5) apply false
     alias(libs.plugins.mikepenz.aboutlibraries) apply false
-    id("com.google.gms.google-services") version "4.3.10" apply false
-    id ("com.google.firebase.crashlytics") version "2.8.1" apply false
+    id("com.google.gms.google-services") version "4.4.3" apply false
+    id("com.google.firebase.crashlytics") version "3.0.6" apply false
 }

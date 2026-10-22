@@ -36,9 +36,9 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.navigationBarsWithImePadding
-import com.google.accompanist.insets.statusBarsPadding
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.app.apptheme.FlorisAppTheme
@@ -78,6 +78,10 @@ class FlorisAppActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
+        // UMP consent first; MobileAds is initialised and the interstitial preloaded only when allowed.
+        dev.patrickgold.florisboard.ads.AdsConsent.gather(this) {
+            dev.patrickgold.florisboard.ads.InterstitialHelper.preload(this)
+        }
         prefs.datastoreReadyStatus.observe(this) { ready ->
             if (ready) {
                 AppVersionUtils.updateVersionOnInstallAndLastUse(this, prefs)
@@ -102,11 +106,9 @@ class FlorisAppActivity : ComponentActivity() {
         setContent {
             ProvideLocalizedResources(resourcesContext) {
                 FlorisAppTheme(theme = appTheme) {
-                    ProvideWindowInsets(windowInsetsAnimationsEnabled = false) {
-                        Surface(color = MaterialTheme.colors.background) {
-                            SystemUiApp()
-                            AppContent()
-                        }
+                    Surface(color = MaterialTheme.colors.background) {
+                        SystemUiApp()
+                        AppContent()
                     }
                 }
             }
@@ -146,7 +148,8 @@ class FlorisAppActivity : ComponentActivity() {
                 Column(
                     modifier = Modifier
                         .statusBarsPadding()
-                        .navigationBarsWithImePadding(),
+                        .navigationBarsPadding()
+                        .imePadding(),
                 ) {
                     Routes.AppNavHost(
                         modifier = Modifier.weight(1.0f),

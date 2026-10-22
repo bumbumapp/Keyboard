@@ -50,7 +50,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -207,7 +207,7 @@ fun ClipboardInputLayout(
             clip = true,
             clickAndSemanticsModifier = Modifier.combinedClickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = rememberRipple(),
+                indication = ripple(),
                 enabled = popupItem == null,
                 onLongClick = {
                     popupItem = item

@@ -1,3 +1,5 @@
+@file:OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
+
 /*
  * Copyright (C) 2022 Patrick Goldinger
  *
@@ -60,7 +62,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.LocalWindowInsets
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.isImeVisible
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.app.ext.ExtensionComponentView
 import dev.patrickgold.florisboard.app.florisPreferenceModel
@@ -194,7 +197,7 @@ fun ThemeEditorScreen(
             handleBackPress()
         }
 
-        val isImeVisible = LocalWindowInsets.current.ime.isVisible
+        val isImeVisible = WindowInsets.isImeVisible
         LaunchedEffect(showEditComponentMetaDialog, showFineTuneDialog, snyggRuleToEdit, snyggPropertyToEdit) {
             val visible = showEditComponentMetaDialog || showFineTuneDialog ||
                 snyggRuleToEdit != null || snyggPropertyToEdit != null
