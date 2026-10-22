@@ -158,7 +158,7 @@ object ExtensionValidation {
     }
 
     val SnyggSolidColorValue: ValidationRule<String> = ValidationRule<String> {
-        forKlass = SnyggSolidColorValue::class
+        forKlass = dev.patrickgold.florisboard.lib.snygg.value.SnyggSolidColorValue::class // qualified: the property has the same name
         forProperty = "color"
         validator { input ->
             val str = input.trim()
@@ -173,7 +173,7 @@ object ExtensionValidation {
     }
 
     val SnyggDpShapeValue: ValidationRule<String> = ValidationRule<String> {
-        forKlass = SnyggDpShapeValue::class
+        forKlass = dev.patrickgold.florisboard.lib.snygg.value.SnyggDpShapeValue::class // qualified: the property has the same name
         forProperty = "corner"
         validator { str ->
             val floatValue = str.toFloatOrNull()
@@ -187,7 +187,7 @@ object ExtensionValidation {
     }
 
     val SnyggPercentShapeValue: ValidationRule<String> = ValidationRule<String> {
-        forKlass = SnyggPercentShapeValue::class
+        forKlass = dev.patrickgold.florisboard.lib.snygg.value.SnyggPercentShapeValue::class // qualified: the property has the same name
         forProperty = "corner"
         validator { str ->
             val intValue = str.toIntOrNull()
