@@ -64,12 +64,15 @@ import androidx.compose.ui.platform.AbstractComposeView
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import dev.patrickgold.florisboard.app.FlorisAppActivity
 import dev.patrickgold.florisboard.app.devtools.DevtoolsOverlay
@@ -254,6 +257,7 @@ class FlorisImeService : LifecycleInputMethodService() {
     private val activeState get() = keyboardManager.activeState
     private var inputWindowView by mutableStateOf<View?>(null)
     private var inputViewSize by mutableStateOf(IntSize.Zero)
+    private var navBarBottomInsetPx by mutableStateOf(0)
     private val inputFeedbackController by lazy { InputFeedbackController.new(this) }
     private var isWindowShown: Boolean = false
     private var isFullscreenUiMode by mutableStateOf(false)
@@ -572,6 +576,10 @@ class FlorisImeService : LifecycleInputMethodService() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
+                        // Android 15+ draws the IME window edge-to-edge: keep the keys (incl. the
+                        // space bar) above the gesture/navigation bar. The surface background still
+                        // extends behind the bar.
+                        .padding(bottom = with(LocalDensity.current) { navBarBottomInsetPx.toDp() })
                         // FIXME: removing this fixes the Smartbar sizing but breaks one-handed-mode
                         //.height(IntrinsicSize.Min)
                         .padding(bottom = bottomOffset),
@@ -638,6 +646,24 @@ class FlorisImeService : LifecycleInputMethodService() {
         override fun onAttachedToWindow() {
             super.onAttachedToWindow()
             updateSoftInputWindowLayoutParameters()
+            updateNavBarInset()
+        }
+
+        override fun onApplyWindowInsets(insets: android.view.WindowInsets): android.view.WindowInsets {
+            updateNavBarInset()
+            return super.onApplyWindowInsets(insets)
+        }
+
+        private fun updateNavBarInset() {
+            val rootInsets = ViewCompat.getRootWindowInsets(this) ?: return
+            // On Android 15 the IME window draws its own navigation bar (back + IME switcher);
+            // its height is reported as tappable element / system bar inset, not navigationBars.
+            val navBottom = maxOf(
+                rootInsets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom,
+                rootInsets.getInsets(WindowInsetsCompat.Type.tappableElement()).bottom,
+            )
+            val inset = imeNavBarBottomPaddingPx(Build.VERSION.SDK_INT, navBottom)
+            if (inset != navBarBottomInsetPx) navBarBottomInsetPx = inset
         }
     }
 
@@ -745,3 +771,11 @@ class FlorisImeService : LifecycleInputMethodService() {
         }
     }
 }
+
+/**
+ * Bottom padding the keyboard needs so its last row is not covered by the navigation/gesture bar.
+ * From Android 15 (API 35) apps targeting SDK 35+ are drawn edge-to-edge and the IME window no
+ * longer fits the navigation bar; below that the decor view already reserves the space.
+ */
+internal fun imeNavBarBottomPaddingPx(sdkInt: Int, navBarBottomPx: Int): Int =
+    if (sdkInt >= 35) navBarBottomPx.coerceAtLeast(0) else 0
