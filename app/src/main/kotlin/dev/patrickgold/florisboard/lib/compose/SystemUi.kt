@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
@@ -41,7 +42,9 @@ import dev.patrickgold.florisboard.lib.snygg.ui.solidColor
 @Composable
 fun SystemUiApp() {
     val systemUiController = rememberFlorisSystemUiController()
-    val useDarkIcons = MaterialTheme.colors.isLight
+    // The "light" app palette uses a dark background, so MaterialTheme.colors.isLight would pick
+    // dark icons on a dark surface. Derive the icon appearance from the real background instead.
+    val useDarkIcons = useDarkSystemBarIcons(MaterialTheme.colors.background)
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -57,6 +60,11 @@ fun SystemUiApp() {
         }
     }
 }
+
+/**
+ * Returns true if system bar icons drawn over [background] should be dark (light appearance).
+ */
+fun useDarkSystemBarIcons(background: Color): Boolean = background.luminance() > 0.5f
 
 @Composable
 fun SystemUiIme() {
