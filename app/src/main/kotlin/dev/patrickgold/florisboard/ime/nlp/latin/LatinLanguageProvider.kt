@@ -39,6 +39,43 @@ class LatinLanguageProvider(context: Context) : SpellingProvider, SuggestionProv
         // Default user ID used for all subtypes, unless otherwise specified.
         // See `ime/core/Subtype.kt` Line 210 and 211 for the default usage
         const val ProviderId = "org.florisboard.nlp.providers.latin"
+
+        /**
+         * Most frequent dictionary words that start with [input] (case-insensitive, the input itself excluded),
+         * capitalized like the input. The bundled dictionary is English only.
+         */
+        // The bundled English word list contains profanity; hidden unless "Block possibly offensive words" is off.
+        private val OffensivePrefixes = listOf(
+            "fuck", "shit", "bitch", "cunt", "nigg", "fag", "slut", "whore", "porn", "asshole", "pussy",
+            "dickhead", "motherf", "bastard", "wank", "twat", "bollock", "retard",
+        )
+        private val OffensiveWords = setOf("dick", "dicks", "cock", "cocks", "cum", "tits", "ass", "arse", "piss", "rape")
+
+        fun isPossiblyOffensive(word: String): Boolean {
+            val w = word.lowercase()
+            return w in OffensiveWords || OffensivePrefixes.any { w.startsWith(it) }
+        }
+
+        fun prefixSuggestions(
+            words: Map<String, Int>,
+            input: String,
+            max: Int,
+            allowPossiblyOffensive: Boolean = false,
+        ): List<String> {
+            val prefix = input.lowercase()
+            if (prefix.isEmpty() || max <= 0) return emptyList()
+            val matches = words.entries
+                .filter { it.key.length > prefix.length && it.key.startsWith(prefix) }
+                .filter { allowPossiblyOffensive || !isPossiblyOffensive(it.key) }
+                .sortedWith(compareByDescending<Map.Entry<String, Int>> { it.value }.thenBy { it.key.length })
+                .take(max)
+                .map { it.key }
+            return when {
+                input.length > 1 && input.all { it.isUpperCase() } -> matches.map { it.uppercase() }
+                input.first().isUpperCase() -> matches.map { w -> w.replaceFirstChar { it.uppercaseChar() } }
+                else -> matches
+            }
+        }
     }
 
     private val appContext by context.appContext()
@@ -88,15 +125,8 @@ class LatinLanguageProvider(context: Context) : SpellingProvider, SuggestionProv
         allowPossiblyOffensive: Boolean,
         isPrivateSession: Boolean,
     ): SpellingResult {
-        return when (word.lowercase()) {
-            // Use typo for typing errors
-            "typo" -> SpellingResult.typo(arrayOf("typo1", "typo2", "typo3"))
-            // Use grammar error if the algorithm can detect this. On Android 11 and lower grammar errors are visually
-            // marked as typos due to a lack of support
-            "gerror" -> SpellingResult.grammarError(arrayOf("grammar1", "grammar2", "grammar3"))
-            // Use valid word for valid input
-            else -> SpellingResult.validWord()
-        }
+        // No real spell checking engine yet: never flag words (the sample provider marked "typo"/"gerror").
+        return SpellingResult.validWord()
     }
 
     override suspend fun suggest(
@@ -106,20 +136,18 @@ class LatinLanguageProvider(context: Context) : SpellingProvider, SuggestionProv
         allowPossiblyOffensive: Boolean,
         isPrivateSession: Boolean,
     ): List<SuggestionCandidate> {
-        val word = content.composingText.ifBlank { "next" }
-        val suggestions = buildList {
-            for (n in 0 until maxCandidateCount) {
-                add(WordSuggestionCandidate(
-                    text = "$word$n",
-                    secondaryText = if (n % 2 == 1) "secondary" else null,
-                    confidence = 0.5,
-                    isEligibleForAutoCommit = n == 0 && word.startsWith("auto"),
-                    // We set ourselves as the source provider so we can get notify events for our candidate
-                    sourceProvider = this@LatinLanguageProvider,
-                ))
-            }
+        // Placeholder candidates ("hello0", "hello1"...) came from the FlorisBoard sample provider; use the dictionary.
+        if (subtype.primaryLocale.language != "en") return emptyList()
+        val words = wordData.withLock { it.toMap() }
+        return prefixSuggestions(words, content.composingText.toString(), maxCandidateCount, allowPossiblyOffensive).map { text ->
+            WordSuggestionCandidate(
+                text = text,
+                confidence = 0.5,
+                isEligibleForAutoCommit = false,
+                // We set ourselves as the source provider so we can get notify events for our candidate
+                sourceProvider = this@LatinLanguageProvider,
+            )
         }
-        return suggestions
     }
 
     override suspend fun notifySuggestionAccepted(subtype: Subtype, candidate: SuggestionCandidate) {
