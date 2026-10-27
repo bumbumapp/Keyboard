@@ -149,8 +149,8 @@ fun FlorisWarningCard(
 ) {
     FlorisSimpleCard(
         modifier = modifier,
-        backgroundColor = Color.Yellow,
-        contentColor = Color.Black,
+        backgroundColor = Color(0xFFFFC24A),
+        contentColor = Color(0xFF1A1300),
         onClick = onClick,
         icon = if (showIcon) ({ Icon(
             modifier = Modifier

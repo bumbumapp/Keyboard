@@ -24,13 +24,13 @@ import dev.patrickgold.florisboard.lib.snygg.SnyggStylesheet
 
 val FlorisImeThemeBaseStyle = SnyggStylesheet {
     defines {
-        "primary" to rgbaColor(76, 175, 80)
-        "primaryVariant" to rgbaColor(56, 142, 60)
-        "secondary" to rgbaColor(245, 124, 0)
-        "secondaryVariant" to rgbaColor(230, 81, 0)
-        "background" to rgbaColor(33, 33, 33)
-        "surface" to rgbaColor(66, 66, 66)
-        "surfaceVariant" to rgbaColor(97, 97, 97)
+        "primary" to rgbaColor(255, 194, 74)
+        "primaryVariant" to rgbaColor(245, 176, 49)
+        "secondary" to rgbaColor(245, 165, 36)
+        "secondaryVariant" to rgbaColor(217, 138, 16)
+        "background" to rgbaColor(21, 22, 26)
+        "surface" to rgbaColor(42, 45, 52)
+        "surfaceVariant" to rgbaColor(58, 62, 71)
 
         "onBackground" to rgbaColor(255, 255, 255)
         "onSurface" to rgbaColor(255, 255, 255)
@@ -52,11 +52,11 @@ val FlorisImeThemeBaseStyle = SnyggStylesheet {
     }
     FlorisImeUi.Key(codes = listOf(KeyCode.ENTER)) {
         background = `var`("primary")
-        foreground = `var`("onSurface")
+        foreground = rgbaColor(26, 19, 0)
     }
     FlorisImeUi.Key(codes = listOf(KeyCode.ENTER), pressedSelector = true) {
         background = `var`("primaryVariant")
-        foreground = `var`("onSurface")
+        foreground = rgbaColor(26, 19, 0)
     }
     FlorisImeUi.Key(
         codes = listOf(KeyCode.SHIFT),

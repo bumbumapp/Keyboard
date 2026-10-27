@@ -4,15 +4,21 @@ import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 
 class InterstitialHelperTest : FreeSpec({
+    val hour = 60 * 60_000L
+    val t0 = 1_700_000_000_000L
+
     "Frequency cap" - {
-        "blocks a second ad within 60 s" {
-            InterstitialHelper.capAllows(100_000L, 50_000L) shouldBe false
+        "is one hour" {
+            InterstitialHelper.MIN_INTERVAL_MS shouldBe hour
         }
-        "allows an ad after 60 s" {
-            InterstitialHelper.capAllows(110_000L, 50_000L) shouldBe true
+        "blocks ads during the first hour after install" {
+            InterstitialHelper.capAllows(t0 + 59 * 60_000L, 0L, t0) shouldBe false
+            InterstitialHelper.capAllows(t0 + hour, 0L, t0) shouldBe true
         }
-        "allows the first ad" {
-            InterstitialHelper.capAllows(0L, -InterstitialHelper.MIN_INTERVAL_MS) shouldBe true
+        "blocks a second ad within the hour" {
+            val shown = t0 + 2 * hour
+            InterstitialHelper.capAllows(shown + 10 * 60_000L, shown, t0) shouldBe false
+            InterstitialHelper.capAllows(shown + hour, shown, t0) shouldBe true
         }
     }
 })

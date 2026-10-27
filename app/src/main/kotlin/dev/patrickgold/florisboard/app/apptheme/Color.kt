@@ -18,7 +18,8 @@ package dev.patrickgold.florisboard.app.apptheme
 
 import androidx.compose.ui.graphics.Color
 
-val Green500 = Color(0xFFFFC107)
-val Green700 = Color(0xFFFFC107)
-val Orange700 = Color(0xFFFFC107)
-val Orange900 = Color(0xFFFFC107)
+// 2026 premium refresh: one warm amber accent on graphite surfaces.
+val Green500 = Color(0xFFFFC24A)
+val Green700 = Color(0xFFF5B031)
+val Orange700 = Color(0xFFFFC24A)
+val Orange900 = Color(0xFFF5B031)

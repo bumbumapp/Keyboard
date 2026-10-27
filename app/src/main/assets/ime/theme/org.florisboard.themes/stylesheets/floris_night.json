@@ -1,12 +1,12 @@
 {
   "@defines": {
-    "--primary": "#4caf50",
-    "--primary-variant": "#388e3c",
-    "--secondary": "#f57c00",
-    "--secondary-variant": "#e65100",
-    "--background": "#212121",
-    "--surface": "#424242",
-    "--surface-variant": "#616161",
+    "--primary": "#ffc24a",
+    "--primary-variant": "#f5b031",
+    "--secondary": "#f5a524",
+    "--secondary-variant": "#d98a10",
+    "--background": "#15161a",
+    "--surface": "#2a2d34",
+    "--surface-variant": "#3a3e47",
 
     "--on-background": "#dcdcdc",
     "--on-surface": "#ffffff",
@@ -33,11 +33,11 @@
   },
   "key[code={c:enter}]": {
     "background": "var(--primary)",
-    "foreground": "var(--on-surface)"
+    "foreground": "#1a1300"
   },
   "key[code={c:enter}]:pressed": {
     "background": "var(--primary-variant)",
-    "foreground": "var(--on-surface)"
+    "foreground": "#1a1300"
   },
   "key[code={c:shift}][shiftstate={sh:caps_lock}]": {
     "foreground": "var(--secondary)"

@@ -1,9 +1,9 @@
 {
   "@defines": {
-    "--primary": "#4caf50",
-    "--primary-variant": "#388e3c",
-    "--secondary": "#ff9800",
-    "--secondary-variant": "#e65100",
+    "--primary": "#ffc24a",
+    "--primary-variant": "#f5b031",
+    "--secondary": "#f5a524",
+    "--secondary-variant": "#d98a10",
     "--background": "#e0e0e0",
     "--surface": "#ffffff",
     "--surface-variant": "#f5f5f5",
@@ -33,11 +33,11 @@
   },
   "key[code={c:enter}]": {
     "background": "var(--primary)",
-    "foreground": "var(--on-surface)"
+    "foreground": "#1a1300"
   },
   "key[code={c:enter}]:pressed": {
     "background": "var(--primary-variant)",
-    "foreground": "var(--on-surface)"
+    "foreground": "#1a1300"
   },
   "key[code={c:shift}][shiftstate={sh:caps_lock}]": {
     "foreground": "var(--secondary)"

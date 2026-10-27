@@ -35,6 +35,7 @@ fun FlorisAppBar(
         title = {
             Text(
                 text = title,
+                style = androidx.compose.material.MaterialTheme.typography.h5,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
             )
