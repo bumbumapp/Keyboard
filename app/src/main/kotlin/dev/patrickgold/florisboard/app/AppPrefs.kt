@@ -587,9 +587,10 @@ class AppPrefs : PreferenceModel("florisboard-app-prefs") {
             key = "suggestion__api30_inline_suggestions_enabled",
             default = true,
         )
+        // On by default: the store listing advertises word suggestions and the latin provider is real now.
         val enabled = boolean(
             key = "suggestion__enabled",
-            default = false,
+            default = true,
         )
         val displayMode = enum(
             key = "suggestion__display_mode",

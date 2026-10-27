@@ -20,3 +20,10 @@ class DefaultThemeIdsTest : FreeSpec({
         defaults.forEach { ids shouldContain it }
     }
 })
+
+class ThemeLabelTest : FreeSpec({
+    "theme ids become readable names" {
+        dev.patrickgold.florisboard.app.settings.theme.themeLabel("floris_day") shouldBe "Day"
+        dev.patrickgold.florisboard.app.settings.theme.themeLabel("floris_pure_night_borderless") shouldBe "Pure Night Borderless"
+    }
+})

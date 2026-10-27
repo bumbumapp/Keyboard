@@ -84,7 +84,7 @@ fun ThemeScreen() = FlorisScreen {
             Preference(
                 iconId = R.drawable.ic_light_mode,
                 title = stringRes(R.string.pref__theme__any_theme__label),
-                summary = "keyboard.themes:keyboard_day",
+                summary = themeLabel(dayThemeId.componentId),
                 onClick = {
                     navController.navigate(Routes.Settings.ThemeManager(ThemeManagerScreenAction.SELECT_DAY))
                 },
@@ -105,7 +105,7 @@ fun ThemeScreen() = FlorisScreen {
             Preference(
                 iconId = R.drawable.ic_dark_mode,
                 title = stringRes(R.string.pref__theme__any_theme__label),
-                summary = "keyboard.themes:keyboard_night",
+                summary = themeLabel(nightThemeId.componentId),
                 onClick = {
                     navController.navigate(Routes.Settings.ThemeManager(ThemeManagerScreenAction.SELECT_NIGHT))
                 },
@@ -120,3 +120,9 @@ fun ThemeScreen() = FlorisScreen {
         }
     }
 }
+
+/** "floris_pure_night_borderless" -> "Pure Night Borderless": readable name of the selected theme. */
+internal fun themeLabel(componentId: String): String =
+    componentId.removePrefix("floris_").split('_').joinToString(" ") { part ->
+        part.replaceFirstChar { it.uppercaseChar() }
+    }
