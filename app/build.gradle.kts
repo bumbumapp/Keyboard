@@ -46,9 +46,9 @@ android {
         applicationId = "com.bumbumapps.keyboardpro"
         minSdk = 24
         targetSdk = 36
-        // Play: versionCode 10 is live.
-        versionCode = 12
-        versionName = "1.3.0"
+        // Play: versionCode 12 is live.
+        versionCode = 13
+        versionName = "1.3.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
