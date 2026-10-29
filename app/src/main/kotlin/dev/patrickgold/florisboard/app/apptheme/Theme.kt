@@ -33,7 +33,7 @@ private val AmoledDarkColorPalette = darkColors(
     secondaryVariant = Orange900,
 
     background = Color(0xFF000000),
-    surface = Color(0xFF16171B),
+    surface = Color(0xFF14161D),
     onPrimary = Color(0xFF1A1300),
     onSecondary = Color(0xFF1A1300),
 )
@@ -44,8 +44,8 @@ private val DarkColorPalette = darkColors(
     secondary = Orange700,
     secondaryVariant = Orange900,
 
-    background = Color(0xFF121317),
-    surface = Color(0xFF1E2026),
+    background = Color(0xFF0D0F16),
+    surface = Color(0xFF171A23),
     onPrimary = Color(0xFF1A1300),
     onSecondary = Color(0xFF1A1300),
 )
@@ -53,17 +53,18 @@ private val DarkColorPalette = darkColors(
 private val LightColorPalette = lightColors(
     primary = Green500,
     primaryVariant = Green700,
-    secondary = Orange700,
-    secondaryVariant = Orange900,
+    // Section titles, switches and links use secondary: a deep amber that reads on #F3F4F8.
+    secondary = Color(0xFF9A6200),
+    secondaryVariant = Color(0xFF7A4E00),
 
 
-    background = Color(0xFF131418),
-    surface = Color(0xFF23262D),
+    background = Color(0xFFF3F4F8),
+    surface = Color(0xFFFFFFFF),
 
     onPrimary = Color(0xFF1A1300),
-    onSecondary = Color(0xFF1A1300),
-    onBackground = Color.White,
-    onSurface = Color.White,
+    onSecondary = Color.White,
+    onBackground = Color(0xFF0E1222),
+    onSurface = Color(0xFF0E1222),
 )
 
 @Composable

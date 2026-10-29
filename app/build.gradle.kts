@@ -47,8 +47,8 @@ android {
         minSdk = 24
         targetSdk = 36
         // Play: versionCode 12 is live.
-        versionCode = 13
-        versionName = "1.3.1"
+        versionCode = 14
+        versionName = "1.4.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

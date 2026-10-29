@@ -807,4 +807,5 @@
         <item quantity="other">{v} items</item>
     </plurals>
     <string name="ads__privacy_options">Privacy options</string>
+    <string name="bento__home_hero_subtitle">Colors, key shapes and fonts for your keyboard</string>
 </resources>

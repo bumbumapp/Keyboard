@@ -26,11 +26,11 @@ import dev.patrickgold.florisboard.R
 
 /** Manrope across the settings app (2026 premium refresh). */
 val Manrope = FontFamily(
-    Font(R.font.manrope_regular, FontWeight.Normal),
-    Font(R.font.manrope_medium, FontWeight.Medium),
-    Font(R.font.manrope_semibold, FontWeight.SemiBold),
-    Font(R.font.manrope_bold, FontWeight.Bold),
-    Font(R.font.manrope_extrabold, FontWeight.ExtraBold),
+    Font(R.font.jakarta_regular, FontWeight.Normal),
+    Font(R.font.jakarta_medium, FontWeight.Medium),
+    Font(R.font.jakarta_semibold, FontWeight.SemiBold),
+    Font(R.font.jakarta_bold, FontWeight.Bold),
+    Font(R.font.jakarta_extrabold, FontWeight.ExtraBold),
 )
 
 val Typography = Typography(
