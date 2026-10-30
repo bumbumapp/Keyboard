@@ -46,9 +46,9 @@ android {
         applicationId = "com.bumbumapps.keyboardpro"
         minSdk = 24
         targetSdk = 36
-        // Play: versionCode 12 is live.
-        versionCode = 14
-        versionName = "1.4.0"
+        // Play: versionCode 14 is live.
+        versionCode = 15
+        versionName = "1.4.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -202,6 +202,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.profileinstaller)
     implementation("com.google.android.gms:play-services-ads:25.5.0")
+    // Play SDK index: play-services-base pulls androidx.fragment 1.1.0 (flagged outdated); force current.
+    implementation("androidx.fragment:fragment:1.8.9")
     implementation("com.google.android.ump:user-messaging-platform:4.0.0")
     implementation(platform("com.google.firebase:firebase-bom:34.4.0"))
     implementation("com.google.firebase:firebase-crashlytics")
