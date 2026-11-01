@@ -36,6 +36,7 @@ android {
         targetSdk = 36
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        missingDimensionStrategy("store", "play")
 
         sourceSets {
             maybeCreate("main").apply {

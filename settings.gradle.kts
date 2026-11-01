@@ -29,6 +29,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url = uri("https://jitpack.io") } // JetPref library
+        maven { url = uri("https://developer.huawei.com/repo/") } // Huawei Ads (hms flavor)
     }
 }
 

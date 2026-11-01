@@ -18,6 +18,7 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
 import java.io.File
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.agp.application)
@@ -30,6 +31,17 @@ plugins {
     id("com.google.gms.google-services")
     id ("com.google.firebase.crashlytics")
 }
+
+// Huawei Ads (Petal) slot IDs for the AppGallery build: -PHMS_INTERSTITIAL_ID=... / ads.properties.
+// Until the real slots are set the hms build falls back to Huawei's public test slots.
+val adsProps = Properties().apply {
+    val f = rootProject.file("ads.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
+}
+fun adId(key: String, fallback: String): String =
+    project.findProperty(key)?.toString() ?: adsProps.getProperty(key) ?: fallback
+val hmsTestInterstitialId = "testb4znbuh3n2"
+val hmsInterstitialId = adId("HMS_INTERSTITIAL_ID", hmsTestInterstitialId)
 
 android {
     namespace = "dev.patrickgold.florisboard"
@@ -119,6 +131,19 @@ android {
         }
     }
 
+    // play = Google Play (AdMob + UMP), hms = Huawei AppGallery (Huawei Ads, no Google Mobile Services).
+    flavorDimensions += "store"
+    productFlavors {
+        create("play") {
+            dimension = "store"
+        }
+        create("hms") {
+            dimension = "store"
+            resValue("string", "hms_interstitial_id", hmsInterstitialId)
+            resValue("string", "hms_test_interstitial_id", hmsTestInterstitialId)
+        }
+    }
+
     buildTypes {
         debug {
             isDebuggable = true
@@ -201,10 +226,11 @@ dependencies {
     implementation(libs.androidx.emoji2.views)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.profileinstaller)
-    implementation("com.google.android.gms:play-services-ads:25.5.0")
+    "playImplementation"("com.google.android.gms:play-services-ads:25.5.0")
     // Play SDK index: play-services-base pulls androidx.fragment 1.1.0 (flagged outdated); force current.
     implementation("androidx.fragment:fragment:1.8.9")
-    implementation("com.google.android.ump:user-messaging-platform:4.0.0")
+    "playImplementation"("com.google.android.ump:user-messaging-platform:4.0.0")
+    "hmsImplementation"("com.huawei.hms:ads-lite:13.4.91.301")
     implementation(platform("com.google.firebase:firebase-bom:34.4.0"))
     implementation("com.google.firebase:firebase-crashlytics")
     ksp(libs.androidx.room.compiler)
