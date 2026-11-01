@@ -41,7 +41,7 @@ val adsProps = Properties().apply {
 fun adId(key: String, fallback: String): String =
     project.findProperty(key)?.toString() ?: adsProps.getProperty(key) ?: fallback
 val hmsTestInterstitialId = "testb4znbuh3n2"
-val hmsInterstitialId = adId("HMS_INTERSTITIAL_ID", hmsTestInterstitialId)
+val hmsInterstitialId = adId("HMS_INTERSTITIAL_ID", "d1waf9b838")
 
 android {
     namespace = "dev.patrickgold.florisboard"
