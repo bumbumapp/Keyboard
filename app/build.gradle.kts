@@ -58,9 +58,9 @@ android {
         applicationId = "com.bumbumapps.keyboardpro"
         minSdk = 24
         targetSdk = 36
-        // Play: versionCode 14 is live.
-        versionCode = 15
-        versionName = "1.4.1"
+        // Play: versionCode 14 is live (15 = 1.4.1 Huawei, rejected).
+        versionCode = 16
+        versionName = "1.4.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
